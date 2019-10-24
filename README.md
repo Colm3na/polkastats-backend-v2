@@ -9,10 +9,10 @@
 $ cd /usr/local
 
 # Clone this repo
-$ git clone https://github.com/Colm3na/polkastats-backend.git
+$ git clone https://github.com/Colm3na/polkastats-backend-v2.git
 
 # Change dir
-$ cd polkastats-backend
+$ cd polkastats-backend-v2
 
 # Install dependencies
 $ npm run install
@@ -20,8 +20,8 @@ $ npm run install
 # Serve with nodejs
 $ node index.js
 
-# OR start with forever (recommended)
-$ forever start /usr/local/polkastats-backend/index.js
+# Or start with forever (recommended)
+$ forever start /usr/local/polkastats-backend-v2/index.js
 ```
 
 ## Setup backend
@@ -54,9 +54,9 @@ $ mysql -u root -p'your_mysql_root_password'
 Add this to your /etc/crontab file:
 
 ``` bash
-# PolkaStats backend
-*/5 *  * * *   root     node /usr/local/polkastats-backend/stake.js
-* *    * * *   root     node /usr/local/polkastats-backend/offline.js
+# PolkaStats backend v2
+*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/stake.js
+* *    * * *   root     node /usr/local/polkastats-backend-v2/offline.js
 ```
 
 
