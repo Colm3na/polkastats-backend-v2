@@ -1,6 +1,6 @@
-# Polkastats backend
+# Polkastats backend v2
 
-> Polkadot network statistics backend
+> Polkadot Kusama network statistics backend
 
 ## Build backend (run as root)
 
