@@ -169,7 +169,7 @@ app.get('/intentions', async function (req, res) {
   // Fetch intention validators
   //
   const stakingValidators = await api.query.staking.validators()
-  const validators = stakingValidators[0][0]
+  const validators = stakingValidators[0]
 
   //
   // Map validator authorityId to staking info object
