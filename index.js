@@ -117,43 +117,6 @@ app.get('/bestblocknumber', async function (req, res) {
 });
 
 
-/* app.get('/validators', async function (req, res) {
-  
-  //
-  // Initialise the provider to connect to the local polkadot node
-  //
-  const provider = new WsProvider(wsProviderUrl);
-
-  //
-  // Create the API and wait until ready
-  //
-  const api = await ApiPromise.create(provider);
-
-  //
-  // Fetch active validators
-  //
-  const validators = await api.query.session.validators()
-
-  //
-  // Map validator authorityId to staking info object
-  //
-  const validatorStaking = await Promise.all(
-    validators.map(authorityId => api.derive.staking.info(authorityId))
-  );
-
-  //
-  // Disconnect. TODO: Reuse websocket connection
-  //
-  provider.disconnect();
-
-  //
-  // Outputs JSON
-  //
-  res.json(validatorStaking);
-
-}); */
-
-
 app.get('/validators', async function (req, res) {
 
   // Connect to MySQL
@@ -167,47 +130,11 @@ app.get('/validators', async function (req, res) {
   // Get last state
   con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows[0]);
+    res.json(JSON.parse(rows[0]['json']));
   });
 
 });
 
-/* app.get('/intentions', async function (req, res) {
-  
-  //
-  // Initialise the provider to connect to the local polkadot node
-  //
-  const provider = new WsProvider(wsProviderUrl);
-
-  //
-  // Create the API and wait until ready
-  //
-  const api = await ApiPromise.create(provider);
-
-  //
-  // Fetch intention validators
-  //
-  const stakingValidators = await api.query.staking.validators()
-  const validators = stakingValidators[0]
-
-  //
-  // Map validator authorityId to staking info object
-  //
-  const validatorStaking = await Promise.all(
-    validators.map(authorityId => api.derive.staking.info(authorityId))
-  );
-
-  //
-  // Disconnect websocket
-  //
-  provider.disconnect();
-
-  //
-  // Outputs JSON
-  //
-  res.json(validatorStaking);
-
-}); */
 
 app.get('/intentions', async function (req, res) {
 
@@ -222,17 +149,7 @@ app.get('/intentions', async function (req, res) {
   // Get last state
   con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-
-    console.log(`json:`, rows[0]['json']);
-
-    //var data = stripslashes(rows[0]['json']);
-    
-    //var data = JSON.parse(rows[0]['json']))
-    
     res.json(JSON.parse(rows[0]['json']));
-
-
-
   });
 
 });
