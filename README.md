@@ -34,7 +34,7 @@ Create database, user and tables:
 $ echo sql/polkastats.sql | mysql -u root -p'your_mysql_root_password'
 ```
 
-### Execute backend scripts via cron
+### Execute crawlers via cron
 
 Add this to your /etc/crontab file:
 
