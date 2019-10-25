@@ -31,20 +31,18 @@ async function main () {
   //
   // Fetch active validators
   //
-  const stakingValidators = await api.query.session.validators();
-  //const validators = stakingValidators;
+  const validators = await api.query.session.validators();
 
-
-  console.log(`stakingValidators:`, JSON.stringify(stakingValidators))
-
-
-  /* //
+  //
   // Map validator authorityId to staking info object
   //
   const validatorStaking = await Promise.all(
     validators.map(authorityId => api.derive.staking.info(authorityId))
   );
 
+  console.log(`validatorStaking:`, validatorStaking);
+
+  /*
   //
   // Database conf
   //
