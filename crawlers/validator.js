@@ -42,7 +42,6 @@ async function main () {
 
   console.log(`validatorStaking:`, JSON.stringify(validatorStaking));
 
-  /*
   //
   // Database conf
   //
@@ -54,10 +53,10 @@ async function main () {
   });
 
   if (validatorStaking) {
-    console.log(`block_height: ${bestNumber} intention: ${JSON.stringify(validatorStaking)}`);
-    var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
+    console.log(`block_height: ${bestNumber} validators: ${JSON.stringify(validatorStaking)}`);
+    var sqlInsert = 'INSERT INTO validator (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-  } */
+  }
 
   //
   // Disconnect. TODO: Reuse websocket connection

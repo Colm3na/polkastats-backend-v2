@@ -15,10 +15,14 @@ async function main () {
   //
   const provider = new WsProvider(wsProviderUrl);
 
+  //
   // Create the API and wait until ready
+  //
   const api = await ApiPromise.create(provider);
   
+  //
   // Fetch active validators
+  //
   const validators = await api.query.session.validators()
 
   if (validators && validators.length > 0) {
@@ -39,11 +43,13 @@ async function main () {
     });
 
     for (var i = 0; i < validatorStaking.length; i++) {
-
       //console.log(validatorStaking[i]);
-      var sqlInsert = "INSERT INTO validator_bonded (accountId, timestamp, amount) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + validatorStaking[i].stakers.total + "');";
+      var bonded = 0;
+      if (validatorStaking[i].stakers.hasOwnProperty(`total`)) {
+        bonded = validatorStaking[i].stakers.total
+      }
+      var sqlInsert = "INSERT INTO validator_bonded (accountId, timestamp, amount) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + bonded + "');";
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-
     }
   }
 }
