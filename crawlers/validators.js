@@ -40,7 +40,7 @@ async function main () {
     validators.map(authorityId => api.derive.staking.info(authorityId))
   );
 
-  console.log(`validatorStaking:`, validatorStaking);
+  console.log(`validatorStaking:`, JSON.stringify(validatorStaking));
 
   /*
   //
