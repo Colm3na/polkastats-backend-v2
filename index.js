@@ -223,7 +223,7 @@ app.get('/intentions', async function (req, res) {
   con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
     
-    data = JSON.parse(stripslashes(rows[0]))
+    var data = JSON.parse(stripslashes(rows[0]))
     
     res.json(data);
 
