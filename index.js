@@ -117,7 +117,7 @@ app.get('/bestblocknumber', async function (req, res) {
 });
 
 
-app.get('/validators', async function (req, res) {
+/* app.get('/validators', async function (req, res) {
   
   //
   // Initialise the provider to connect to the local polkadot node
@@ -151,9 +151,28 @@ app.get('/validators', async function (req, res) {
   //
   res.json(validatorStaking);
 
+}); */
+
+
+app.get('/validators', async function (req, res) {
+
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
+
+  // Get last state
+  con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+
 });
 
-app.get('/intentions', async function (req, res) {
+/* app.get('/intentions', async function (req, res) {
   
   //
   // Initialise the provider to connect to the local polkadot node
@@ -187,6 +206,24 @@ app.get('/intentions', async function (req, res) {
   // Outputs JSON
   //
   res.json(validatorStaking);
+
+}); */
+
+app.get('/intentions', async function (req, res) {
+
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
+
+  // Get last state
+  con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
 
 });
 
@@ -230,12 +267,11 @@ app.get('/validator/graph/daily/:accountId', function (req, res, next) {
     password: "polkastats",
     database: "polkastats",
   });
+
   // Last 24 hours
   con.query('SELECT id, accountId, timestamp, amount FROM validator_bonded WHERE accountId = \'' + req.params.accountId + '\' ORDER BY id DESC LIMIT 288;', function(err, rows, fields) {
     if (err) throw err;
-    
     res.json(rows);
-
   });
 
 });
@@ -249,12 +285,11 @@ app.get('/validator/graph/weekly/:accountId', function (req, res, next) {
     password: "polkastats",
     database: "polkastats",
   });
+
   // Last 7 days
   con.query('SELECT id, accountId, timestamp, amount FROM validator_bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 7;', function(err, rows, fields) {
-    if (err) throw err;
-    
+    if (err) throw err;  
     res.json(rows);
-
   });
 
 });
@@ -268,13 +303,11 @@ app.get('/validator/graph/monthly/:accountId', function (req, res, next) {
     password: "polkastats",
     database: "polkastats",
   });
+
   // Last month (30 days)
   con.query('SELECT id, accountId, timestamp, amount FROM validator_bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 720;', function(err, rows, fields) {
-
-    if (err) throw err;
-    
+    if (err) throw err;  
     res.json(rows);
-
   });
 
 });
