@@ -168,7 +168,7 @@ app.get('/intentions', async function (req, res) {
   const api = await ApiPromise.create(provider);
 
   //
-  // Fetch validators
+  // Fetch intention validators
   //
   const stakingValidators = await Promise.all([
     api.query.staking.validators()
