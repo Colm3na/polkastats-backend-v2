@@ -15,7 +15,7 @@ $ git clone https://github.com/Colm3na/polkastats-backend-v2.git
 $ cd polkastats-backend-v2
 
 # Install dependencies
-$ npm run install
+$ npm install
 
 # Serve with nodejs
 $ node index.js
