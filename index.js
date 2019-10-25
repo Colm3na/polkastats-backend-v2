@@ -302,7 +302,9 @@ app.get('/offline', async function (req, res) {
   //
   // Get validator outages
   //
-  const offlineEvents = await api.query.staking.recentlyOffline();
+
+  // const offlineEvents = await api.query.staking.recentlyOffline();
+  const offlineEvents = [];
 
   //
   // Disconnect. TODO: Reuse websocket connection
