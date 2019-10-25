@@ -28,25 +28,10 @@ $ forever start /usr/local/polkastats-backend-v2/index.js
 
 ### Setup backend MySQL database
 
+Create database, user and tables:
+
 ``` bash
-$ mysql -u root -p'your_mysql_root_password'
-> create database validators;
-> use validators;
-> CREATE TABLE bonded(  
-   id INT NOT NULL AUTO_INCREMENT,
-   accountId VARCHAR(50) NOT NULL,
-   timestamp INT(8) NOT NULL,  
-   amount VARCHAR(50) NOT NULL,
-   PRIMARY KEY ( id )  
-);
-> CREATE TABLE offline (  
-   id INT NOT NULL AUTO_INCREMENT,
-   accountId VARCHAR(50) NOT NULL,
-   blocknumber INT(8) NOT NULL,  
-   times INT(8) NOT NULL,
-   PRIMARY KEY ( id )  
-);
-> GRANT ALL PRIVILEGES ON validators.* to stats@localhost identified by 'stats';
+$ echo sql/polkastats.sql | mysql -u root -p'your_mysql_root_password'
 ```
 
 ### Execute backend scripts via cron
@@ -55,8 +40,11 @@ Add this to your /etc/crontab file:
 
 ``` bash
 # PolkaStats backend v2
-*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/stake.js
-* *    * * *   root     node /usr/local/polkastats-backend-v2/offline.js
+* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention.js
+* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js
+* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator.js
+* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator_bonded.js
+# * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/offline.js
 ```
 
 
