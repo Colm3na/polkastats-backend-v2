@@ -18,10 +18,8 @@ async function main () {
   //
   // Fetch intention validators
   //
-  const stakingValidators = await Promise.all([
-    api.query.staking.validators()
-  ]);
-  const validators = stakingValidators[0][0]
+  const stakingValidators = await api.query.staking.validators();
+  const validators = stakingValidators[0][0];
 
   //
   // Map validator authorityId to staking info object

@@ -33,15 +33,15 @@ async function main () {
     //
     const conn = await mysql.createConnection({
       host: "localhost",
-      user: "stats",
-      password: "stats",
-      database: 'validators'
+      user: "polkastats",
+      password: "polkastats",
+      database: 'polkastats'
     });
 
     for (var i = 0; i < validatorStaking.length; i++) {
 
       //console.log(validatorStaking[i]);
-      var sqlInsert = "INSERT INTO bonded (accountId, timestamp, amount) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + validatorStaking[i].stakers.total + "');";
+      var sqlInsert = "INSERT INTO validator_bonded (accountId, timestamp, amount) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + validatorStaking[i].stakers.total + "');";
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
 
     }

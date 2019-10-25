@@ -130,11 +130,9 @@ app.get('/validators', async function (req, res) {
   const api = await ApiPromise.create(provider);
 
   //
-  // Retrieve active validators
+  // Fetch active validators
   //
-  const [validators] = await Promise.all([
-    api.query.session.validators()
-  ]);
+  const validators = await api.query.session.validators()
 
   //
   // Map validator authorityId to staking info object
@@ -170,9 +168,7 @@ app.get('/intentions', async function (req, res) {
   //
   // Fetch intention validators
   //
-  const stakingValidators = await Promise.all([
-    api.query.staking.validators()
-  ]);
+  const stakingValidators = await api.query.staking.validators()
   const validators = stakingValidators[0][0]
 
   //
@@ -210,9 +206,7 @@ app.get('/validator/:accountId', async function (req, res) {
   //
   // Retrieve validator staking info
   //
-  const [validator] = await Promise.all([
-    api.derive.staking.info(req.params.accountId)
-  ]);
+  const validator = await api.derive.staking.info(req.params.accountId)
 
   //
   // Disconnect. TODO: Reuse websocket connection
@@ -232,12 +226,12 @@ app.get('/validator/graph/daily/:accountId', function (req, res, next) {
   // Connect to MySQL
   var con = mysql.createConnection({
     host: "localhost",
-    user: "stats",
-    password: "stats",
-    database: 'validators'
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
   });
   // Last 24 hours
-  con.query('SELECT id, accountId, timestamp, amount FROM bonded WHERE accountId = \'' + req.params.accountId + '\' ORDER BY id DESC LIMIT 288;', function(err, rows, fields) {
+  con.query('SELECT id, accountId, timestamp, amount FROM validator_bonded WHERE accountId = \'' + req.params.accountId + '\' ORDER BY id DESC LIMIT 288;', function(err, rows, fields) {
     if (err) throw err;
     
     res.json(rows);
@@ -251,12 +245,12 @@ app.get('/validator/graph/weekly/:accountId', function (req, res, next) {
   // Connect to MySQL
   var con = mysql.createConnection({
     host: "localhost",
-    user: "stats",
-    password: "stats",
-    database: 'validators'
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
   });
   // Last 7 days
-  con.query('SELECT id, accountId, timestamp, amount FROM bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 7;', function(err, rows, fields) {
+  con.query('SELECT id, accountId, timestamp, amount FROM validator_bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 7;', function(err, rows, fields) {
     if (err) throw err;
     
     res.json(rows);
@@ -270,12 +264,12 @@ app.get('/validator/graph/monthly/:accountId', function (req, res, next) {
   // Connect to MySQL
   var con = mysql.createConnection({
     host: "localhost",
-    user: "stats",
-    password: "stats",
-    database: 'validators'
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
   });
   // Last month (30 days)
-  con.query('SELECT id, accountId, timestamp, amount FROM bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 720;', function(err, rows, fields) {
+  con.query('SELECT id, accountId, timestamp, amount FROM validator_bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 720;', function(err, rows, fields) {
 
     if (err) throw err;
     
@@ -284,8 +278,6 @@ app.get('/validator/graph/monthly/:accountId', function (req, res, next) {
   });
 
 });
-
-
 
 app.get('/offline', async function (req, res) {
   
@@ -302,9 +294,7 @@ app.get('/offline', async function (req, res) {
   //
   // Get validator outages
   //
-
-  // const offlineEvents = await api.query.staking.recentlyOffline();
-  const offlineEvents = [];
+  const offlineEvents = await api.query.staking.recentlyOffline();
 
   //
   // Disconnect. TODO: Reuse websocket connection
@@ -318,7 +308,7 @@ app.get('/offline', async function (req, res) {
 
 });
 
-// Certificate
+// SSL certificate files
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/polkastats.io/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/polkastats.io/cert.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/polkastats.io/chain.pem', 'utf8');
