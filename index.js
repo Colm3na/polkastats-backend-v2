@@ -167,7 +167,7 @@ app.get('/validators', async function (req, res) {
   // Get last state
   con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows[0]);
+    res.json(stripslashes(rows[0]));
   });
 
 });
@@ -222,7 +222,7 @@ app.get('/intentions', async function (req, res) {
   // Get last state
   con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows[0]);
+    res.json(stripslashes(rows[0]));
   });
 
 });
@@ -358,3 +358,33 @@ const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(8443, () => {
 	console.log('HTTPS Server running on port 8443');
 });
+
+
+function stripslashes (str) {
+  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Ates Goral (http://magnetiq.com)
+  // +      fixed by: Mick@el
+  // +   improved by: marrtins
+  // +   bugfixed by: Onno Marsman
+  // +   improved by: rezna
+  // +   input by: Rick Waldron
+  // +   reimplemented by: Brett Zamir (http://brett-zamir.me)
+  // +   input by: Brant Messenger (http://www.brantmessenger.com/)
+  // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
+  // *     example 1: stripslashes('Kevin\'s code');
+  // *     returns 1: "Kevin's code"
+  // *     example 2: stripslashes('Kevin\\\'s code');
+  // *     returns 2: "Kevin\'s code"
+  return (str + '').replace(/\\(.?)/g, function (s, n1) {
+    switch (n1) {
+    case '\\':
+      return '\\';
+    case '0':
+      return '\u0000';
+    case '':
+      return '';
+    default:
+      return n1;
+    }
+  });
+}
