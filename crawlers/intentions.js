@@ -32,13 +32,7 @@ async function main () {
   // Fetch intention validators
   //
   const stakingValidators = await api.query.staking.validators();
-
-  console.log(`stakingValidators:`, JSON.stringify(stakingValidators));
-
   const validators = stakingValidators[0];
-
-  console.log(`validators:`, JSON.stringify(validators));
-  
 
   //
   // Map validator authorityId to staking info object
@@ -46,11 +40,6 @@ async function main () {
   const validatorStaking = await Promise.all(
     validators.map(authorityId => api.derive.staking.info(authorityId))
   );
-
-  //
-  // Outputs JSON
-  //
-  console.log(`validatorStaking:`, JSON.stringify(validatorStaking));
 
   //
   // Database conf
@@ -62,12 +51,10 @@ async function main () {
     database: 'polkastats'
   });
 
-  if (validatorStaking && validatorStaking.length > 0) {
-    for (var i = 0; i < validatorStaking.length; i++) {
-      console.log(`block_height: ${bestNumber} intention: ${validatorStaking}`);
-      var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
-      let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-    }
+  if (validatorStaking) {
+    console.log(`block_height: ${bestNumber} intention: ${JSON.stringify(validatorStaking)}`);
+    var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
+    let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
 
   //
