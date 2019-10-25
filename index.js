@@ -225,13 +225,13 @@ app.get('/intentions', async function (req, res) {
 
     console.log(`json:`, rows[0]['json']);
 
-    var json = JSON.parse(rows[0]['json']);
+    var data = stripslashes(rows[0]['json']);
 
     console.log(`json parsed:`, JSON.stringify(json))
     
     //var data = JSON.parse(rows[0]['json']))
     
-    res.json(rows[0]['json']);
+    res.json(data);
 
 
 
