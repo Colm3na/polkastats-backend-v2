@@ -35,7 +35,7 @@ async function main () {
   //const validators = stakingValidators;
 
 
-  console.log(`stakingValidators:`, stakingValidators)
+  console.log(`stakingValidators:`, JSON.stringify(stakingValidators))
 
 
   /* //
