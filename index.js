@@ -167,7 +167,7 @@ app.get('/validators', async function (req, res) {
   // Get last state
   con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows);
+    res.json(rows[0]);
   });
 
 });
@@ -222,7 +222,7 @@ app.get('/intentions', async function (req, res) {
   // Get last state
   con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows);
+    res.json(rows[0]);
   });
 
 });
