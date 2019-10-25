@@ -31,7 +31,7 @@ async function main () {
   //
   // Fetch active validators
   //
-  const stakingValidators = await api.session.staking.validators();
+  const stakingValidators = await api.query.session.validators();
   //const validators = stakingValidators;
 
 
