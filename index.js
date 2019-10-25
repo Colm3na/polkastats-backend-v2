@@ -155,6 +155,46 @@ app.get('/validators', async function (req, res) {
 
 });
 
+app.get('/intentions', async function (req, res) {
+  
+  //
+  // Initialise the provider to connect to the local polkadot node
+  //
+  const provider = new WsProvider(wsProviderUrl);
+
+  //
+  // Create the API and wait until ready
+  //
+  const api = await ApiPromise.create(provider);
+
+  //
+  // Fetch validators
+  //
+  const stakingValidators = await Promise.all([
+    api.query.staking.validators()
+  ]);
+  const validators = stakingValidators[0][0]
+
+  //
+  // Map validator authorityId to staking info object
+  //
+  const validatorStaking = await Promise.all(
+    validators.map(authorityId => api.derive.staking.info(authorityId))
+  );
+
+  //
+  // Disconnect websocket
+  //
+  provider.disconnect();
+
+  //
+  // Outputs JSON
+  //
+  res.json(validatorStaking);
+
+});
+
+
 app.get('/validator/:accountId', async function (req, res) {
   
   //
