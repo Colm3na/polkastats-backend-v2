@@ -31,7 +31,7 @@ CREATE TABLE validator_bonded (
 CREATE TABLE validator_offline (  
    id INT NOT NULL AUTO_INCREMENT,
    accountId VARCHAR(50) NOT NULL,
-   blocknumber INT(8) NOT NULL,  
+   block_height INT(8) NOT NULL,  
    times INT(8) NOT NULL,
    PRIMARY KEY ( id )  
 );

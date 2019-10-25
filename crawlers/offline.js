@@ -35,27 +35,18 @@ async function main () {
     database: 'polkastats'
   });
 
-  //console.log(con);
-
   if (offlineEvents && offlineEvents.length > 0) {
-
-    //console.log(JSON.stringify(offlineEvents));
-    
     for (var i = 0; i < offlineEvents.length; i++) {
 
-      // ["5GnNQbHMgBrENud2k3CkbGBB4Z5uNuR6Y1R2z7amXYv8yLMp",2347862,1]
-      console.log(`accountId: ${offlineEvents[i][0]} blocknumber: ${offlineEvents[i][1]} times: ${offlineEvents[i][2]}`);
-
-      var sql = 'SELECT id FROM validator_offline WHERE accountId = \'' + offlineEvents[i][0] + '\' AND blocknumber = \'' + offlineEvents[i][1] + '\' AND times = \'' + offlineEvents[i][2] + '\';';
+      console.log(`accountId: ${offlineEvents[i][0]} block_height: ${offlineEvents[i][1]} times: ${offlineEvents[i][2]}`);
+      var sql = 'SELECT id FROM validator_offline WHERE accountId = \'' + offlineEvents[i][0] + '\' AND block_height = \'' + offlineEvents[i][1] + '\' AND times = \'' + offlineEvents[i][2] + '\';';
 
       // Search for offline event in db, insert it if not found
       let [rows, fields] = await conn.execute(sql, [2, 2]);
       if (rows.length == 0) {
-        var sqlInsert = 'INSERT INTO validator_offline (accountId, blocknumber, times) VALUES (\'' + offlineEvents[i][0] + '\', \'' + offlineEvents[i][1] + '\', \'' + offlineEvents[i][2] + '\');';
+        var sqlInsert = 'INSERT INTO validator_offline (accountId, block_height, times) VALUES (\'' + offlineEvents[i][0] + '\', \'' + offlineEvents[i][1] + '\', \'' + offlineEvents[i][2] + '\');';
         let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
       }
-      //console.log('rows: ' + rows);
-
     }
   }
 }
