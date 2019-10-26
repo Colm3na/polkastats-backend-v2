@@ -4,6 +4,23 @@ GRANT ALL PRIVILEGES ON polkastats.* to polkastats@localhost identified by 'polk
 
 USE polkastats;
 
+CREATE TABLE system (  
+   id INT NOT NULL AUTO_INCREMENT,
+   chain VARCHAR(50) NOT NULL,
+   client_name VARCHAR(50) NOT NULL,
+   client_version VARCHAR(50) NOT NULL,
+   timestamp INT(8) NOT NULL,
+   PRIMARY KEY ( id )  
+);
+
+CREATE TABLE chain (  
+   id INT NOT NULL AUTO_INCREMENT,
+   block_height INT(8) NOT NULL,
+   session_json MEDIUMTEXT NOT NULL,
+   timestamp INT(8) NOT NULL,
+   PRIMARY KEY ( id )  
+);
+
 CREATE TABLE validator (  
    id INT NOT NULL AUTO_INCREMENT,
    block_height INT(8) NOT NULL,  
