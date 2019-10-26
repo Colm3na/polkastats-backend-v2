@@ -35,7 +35,7 @@ app.get('/system', async function (req, res) {
   // Get last state
   con.query('SELECT chain, client_name, client_version, timestamp FROM system WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows);
+    res.json(rows[0]);
   });
 
 });
