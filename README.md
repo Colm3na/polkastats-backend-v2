@@ -41,10 +41,9 @@ Add this to your /etc/crontab file:
 ``` bash
 # PolkaStats backend v2
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention.js
-* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator.js
-* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator_bonded.js
-# * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/offline.js
+*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js
+*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator_bonded.js
 ```
 
 
