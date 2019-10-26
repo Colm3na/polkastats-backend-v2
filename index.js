@@ -24,35 +24,18 @@ app.use((req, res, next) => {
 
 app.get('/system', async function (req, res) {
   
-  //
-  // Initialise the provider to connect to the local polkadot node
-  //
-  const provider = new WsProvider(wsProviderUrl);
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
 
-  //
-  // Create the API and wait until ready
-  //
-  const api = await ApiPromise.create(provider);
-
-  // Retrieve chain, node name and node version
-  const [chain, nodeName, nodeVersion] = await Promise.all([
-    api.rpc.system.chain(),
-    api.rpc.system.name(),
-    api.rpc.system.version()
-  ]);
-
-  //
-  // Disconnect. TODO: Reuse websocket connection
-  //
-  provider.disconnect();
-
-  //
-  // Outputs JSON
-  //
-  res.json({
-    'chain': chain,
-    'nodeName': nodeName,
-    'nodeVersion': nodeVersion
+  // Get last state
+  con.query('SELECT chain, client_name, client_version, timestamp FROM system WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
   });
 
 });
