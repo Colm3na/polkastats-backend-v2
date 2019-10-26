@@ -53,7 +53,7 @@ app.get('/chain', async function (req, res) {
   // Get last state
   con.query('SELECT block_height, session_json, timestamp FROM chain WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;  
-    res.json(rows[0]);
+    res.json(JSON.parse(rows[0]));
   });
 
 });
