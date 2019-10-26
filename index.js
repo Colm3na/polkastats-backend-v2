@@ -184,6 +184,7 @@ app.get('/validator/:accountId', async function (req, res) {
 
 });
 
+/* VALIDATOR GRAPHS */
 
 app.get('/validator/graph/daily/:accountId', function (req, res, next) {
 
@@ -238,6 +239,63 @@ app.get('/validator/graph/monthly/:accountId', function (req, res, next) {
   });
 
 });
+
+/* INTENTION GRAPHS */
+
+app.get('/intention/graph/daily/:accountId', function (req, res, next) {
+
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
+
+  // Last 24 hours
+  con.query('SELECT id, accountId, timestamp, amount FROM validator_intention_bonded WHERE accountId = \'' + req.params.accountId + '\' ORDER BY id DESC LIMIT 288;', function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+
+});
+
+app.get('/intention/graph/weekly/:accountId', function (req, res, next) {
+
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
+
+  // Last 7 days
+  con.query('SELECT id, accountId, timestamp, amount FROM validator_intention_bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 7;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+
+});
+
+app.get('/intention/graph/monthly/:accountId', function (req, res, next) {
+
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
+
+  // Last month (30 days)
+  con.query('SELECT id, accountId, timestamp, amount FROM validator_intention_bonded WHERE accountId = \'' + req.params.accountId + '\' AND DATE_FORMAT(FROM_UNIXTIME(`timestamp`), "%d/%m/%Y %H:%i:%s") LIKE "%00:00:%" ORDER BY id DESC LIMIT 720;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+
+});
+
 
 /* app.get('/offline', async function (req, res) {
   
