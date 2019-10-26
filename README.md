@@ -26,9 +26,11 @@ $ forever start /usr/local/polkastats-backend-v2/index.js
 
 ## Setup backend
 
+You will need a kusama full node listening at localhost:9944. You can setup one following this guide: https://blog.colmenalabs.org/running-polkadot-kusama/
+
 ### Setup backend MySQL database
 
-Create database, user and tables:
+Create database, user, permissions and tables:
 
 ``` bash
 $ echo sql/polkastats.sql | mysql -u root -p'your_mysql_root_password'
