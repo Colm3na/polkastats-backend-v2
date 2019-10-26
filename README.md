@@ -36,17 +36,30 @@ Create database, user, permissions and tables:
 $ echo sql/polkastats.sql | mysql -u root -p'your_mysql_root_password'
 ```
 
-### Execute crawlers via cron
+### Run crawlers via cron
 
 Add this to your /etc/crontab file:
 
 ``` bash
-# PolkaStats backend v2
+## PolkaStats backend v2 crawlers
+
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention.js
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator.js
+
+# Execute every 10s
+
+* *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/chain.js
+* *  * * *   root     sleep 10 && node /usr/local/polkastats-backend-v2/crawlers/chain.js
+* *  * * *   root     sleep 20 && node /usr/local/polkastats-backend-v2/crawlers/chain.js
+* *  * * *   root     sleep 30 && node /usr/local/polkastats-backend-v2/crawlers/chain.js
+* *  * * *   root     sleep 40 && node /usr/local/polkastats-backend-v2/crawlers/chain.js
+* *  * * *   root     sleep 50 && node /usr/local/polkastats-backend-v2/crawlers/chain.js
+
+# Execute every 5m
+
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator_bonded.js
-*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/system.js
+*/5 *  * * *   root     sleep 25 && node /usr/local/polkastats-backend-v2/crawlers/system.js
 ```
 
 
