@@ -40,6 +40,24 @@ app.get('/system', async function (req, res) {
 
 });
 
+app.get('/chain', async function (req, res) {
+  
+  // Connect to MySQL
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "polkastats",
+    password: "polkastats",
+    database: "polkastats",
+  });
+
+  // Get last state
+  con.query('SELECT block_height, session_json, timestamp FROM chain WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows[0]);
+  });
+
+});
+
 
 app.get('/session', async function (req, res) {
   
