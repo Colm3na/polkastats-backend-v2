@@ -44,6 +44,7 @@ Add this to your /etc/crontab file:
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator.js
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator_bonded.js
+*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/system.js
 ```
 
 
