@@ -56,7 +56,7 @@ app.get('/chain', async function (req, res) {
 
     res.json({
       block_height: rows[0]['block_height'],
-      session_json: JSON.parse(rows[0]['session_json'])
+      session: JSON.parse(rows[0]['session_json'])
     });
 
   });
