@@ -65,18 +65,18 @@ async function main () {
           for (let j = 0; j < response.data.them.proofs_summary.all.length; j++) {
             let proof = response.data.them.proofs_summary.all[j];
             console.log(proof)
-            /* if (proof.proof_type === `twitter`) {
+            if (proof.proof_type === `twitter`) {
               twitter = proof.service_url;
             }
             if (proof.proof_type === `gitHub`) {
               gitHub = proof.service_url;
             }
-            if (proof.proof_type === `dns`) {
+            if (proof.proof_type === `generic_web_site` || proof.proof_type === `dns` ) {
               website = proof.service_url;
-            } */
+            }
           }
 
-          // console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
+          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} gitHub: ${gitHub} `);
 
           //
           // Insert identity
