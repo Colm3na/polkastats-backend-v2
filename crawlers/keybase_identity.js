@@ -50,16 +50,32 @@ async function main () {
           //
           // Get values
           //
-          let stashId = identity.stashId;
-          let username = response.data.them.basics.username;
-          let username_cased = response.data.them.basics.username_cased;
-          let full_name = response.data.them.profile.full_name;
-          let location = response.data.them.profile.location;
-          let bio = response.data.them.profile.bio;
-          let website = "";
-          let logo = response.data.them.pictures.primary.url;
+          const stashId = identity.stashId;
+          const username = response.data.them.basics.username;
+          const username_cased = response.data.them.basics.username_cased;
+          const full_name = response.data.them.profile.full_name;
+          const location = response.data.them.profile.location;
+          const bio = response.data.them.profile.bio;
+          const logo = response.data.them.pictures.primary.url;
 
-          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} website: ${website} logo: ${logo}`);
+          var website = "";
+          var twitter = "";
+          var gitHub = "";
+
+          for (let j = 0; j < response.data.them.proofs_summary.all.length; j++) {
+            let proof = response.data.them.proofs_summary.all[j];
+            if (proof.proof_type === `twitter`) {
+              twitter = proof.service_url;
+            }
+            if (proof.proof_type === `gitHub`) {
+              gitHub = proof.service_url;
+            }
+            if (proof.proof_type === `dns`) {
+              website = proof.service_url;
+            }
+          }
+
+          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
 
           //
           // Insert identity
