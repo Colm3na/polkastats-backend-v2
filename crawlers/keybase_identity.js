@@ -68,7 +68,7 @@ async function main () {
             if (proof.proof_type === `twitter`) {
               twitter = proof.service_url;
             }
-            if (proof.proof_type === `gitHub`) {
+            if (proof.proof_type === `github`) {
               gitHub = proof.service_url;
             }
             if (proof.proof_type === `generic_web_site` || proof.proof_type === `dns` ) {
