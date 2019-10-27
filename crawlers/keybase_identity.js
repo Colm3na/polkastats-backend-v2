@@ -45,7 +45,7 @@ async function main () {
       await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
         .then(function (response) {
           // handle success
-          console.log(`Keybase Identity:`, JSON.stringify(response.data), null, 4);
+          console.log(`Keybase Identity:`, JSON.stringify(response.data, null, 4));
         })
         .catch(function (error) {
           // handle error
