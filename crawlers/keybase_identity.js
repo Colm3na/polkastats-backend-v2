@@ -64,7 +64,7 @@ async function main () {
 
           for (let j = 0; j < response.data.them.proofs_summary.all.length; j++) {
             let proof = response.data.them.proofs_summary.all[j];
-            console.log(proof)
+            //console.log(proof)
             if (proof.proof_type === `twitter`) {
               twitter = proof.service_url;
             }

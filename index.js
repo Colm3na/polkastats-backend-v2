@@ -78,6 +78,14 @@ app.get('/intentions', async function (req, res) {
 });
 
 
+app.get('/identities', async function (req, res) {
+  // Get last state
+  con.query('SELECT stashId, username, username_cased, full_name, location, bio, logo, website, twitter, github, created, updated FROM keybase_identity WHERE 1 ORDER BY id ASC;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+});
+
 /* VALIDATOR GRAPHS */
 
 app.get('/validator/graph/daily/:accountId', function (req, res, next) {
