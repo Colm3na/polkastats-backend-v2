@@ -38,19 +38,16 @@ async function main () {
 });
 
   if (keybaseIdentities.length > 0) {
-    keybaseIdentities.forEach((identity) => {
+
+    for(let i = 0; i < keybaseIdentities.length; i++) {
       
+      let identity = keybaseIdentities[i]
       console.log(`Identity stashId: ${identity.stashId} username: ${identity.username}`);
 
       //
       // Fetch identity object from Keybase
       //
-      axios.get('http://webcode.me').then(resp => {
-
-          console.log(resp.data);
-      });
-
-/*       await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
+      await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
         .then(function (response) {
           // handle success
           console.log(`Keybase Identity:`, response);
@@ -62,14 +59,16 @@ async function main () {
         .finally(function () {
           // always executed
         });
-       */
+      
       //
       // Insert identity
       //
-      /* var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
-      let [rows, fields] = await conn.execute(sqlInsert, [2, 2]); */
-
-    }); 
+      /*
+      var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
+      let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+      */
+     
+    }
   }
 }
 
