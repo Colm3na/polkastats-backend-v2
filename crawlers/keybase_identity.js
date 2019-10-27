@@ -33,7 +33,7 @@ async function main () {
   const conn = await mysql.createConnection(mysqlConnParams);
 
   if (keybaseIdentities.length > 0) {
-    keybaseIdentities.forEach((identity) => {
+    keybaseIdentities.forEach((identity) => async () => {
       
       console.log(`Identity stashId: ${identity.stashId} username: ${identity.username}`);
 
