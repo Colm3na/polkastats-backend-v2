@@ -7,14 +7,14 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 
-import {
+const {
   backendPort,
   wsProviderUrl,
   mysqlConnParams,
   privateKeyFile,
   certificateFile,
   caFile
-} from './backend.config'
+} = require('./backend.config')
 
 // MySQL database connection
 const con = mysql.createConnection(mysqlConnParams);
