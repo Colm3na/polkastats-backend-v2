@@ -32,6 +32,11 @@ async function main () {
   //
   const conn = await mysql.createConnection(mysqlConnParams);
 
+  axios.get('http://webcode.me').then(resp => {
+
+    console.log(resp.data);
+});
+
   if (keybaseIdentities.length > 0) {
     keybaseIdentities.forEach((identity) => {
       
