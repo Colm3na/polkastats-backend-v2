@@ -61,8 +61,11 @@ CREATE TABLE keybase_identity (
    full_name VARCHAR(100) NOT NULL,
    location VARCHAR(100) NOT NULL,
    bio VARCHAR(100) NOT NULL,
-   website VARCHAR(100) NOT NULL,
    logo VARCHAR(100) NOT NULL,
-   updated_at INT(8) NOT NULL,
+   website VARCHAR(100) NOT NULL,
+   twitter VARCHAR(100) NOT NULL,
+   github VARCHAR(100) NOT NULL, 
+   created INT(8) NOT NULL,    
+   updated INT(8) NOT NULL,
    PRIMARY KEY ( id )  
 );

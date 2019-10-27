@@ -43,7 +43,7 @@ async function main () {
       // Fetch identity object from Keybase
       //
       await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
-        .then(function (response) {
+        .then(async function (response) {
           // handle success
           //console.log(`Keybase Identity:`, JSON.stringify(response.data, null, 4));
 
@@ -60,7 +60,7 @@ async function main () {
 
           var website = "";
           var twitter = "";
-          var gitHub = "";
+          var github = "";
 
           for (let j = 0; j < response.data.them.proofs_summary.all.length; j++) {
             let proof = response.data.them.proofs_summary.all[j];
@@ -69,22 +69,21 @@ async function main () {
               twitter = proof.service_url;
             }
             if (proof.proof_type === `github`) {
-              gitHub = proof.service_url;
+              github = proof.service_url;
             }
             if (proof.proof_type === `generic_web_site` || proof.proof_type === `dns` ) {
               website = proof.service_url;
             }
           }
 
-          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} gitHub: ${gitHub} `);
+          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
 
           //
           // Insert identity
           //
-          /*
-          var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
+          
+          var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, logo, website, twitter, github, created, updated) VALUES (\'' + stashId + '\', \'' + username + '\', \'' + username_cased + '\', \'' + full_name + '\', \'' + location + '\', \'' + bio + '\', \'' + logo + '\', \'' + website + '\', \'' + twitter + '\', \'' + github + '\', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());';
           let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-          */
 
         })
         .catch(function (error) {
