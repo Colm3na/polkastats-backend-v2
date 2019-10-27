@@ -46,20 +46,35 @@ async function main () {
         .then(function (response) {
           // handle success
           console.log(`Keybase Identity:`, JSON.stringify(response.data, null, 4));
+
+          //
+          // Get values
+          //
+          let stashId = identity.stashId;
+          let username = response.data.them.basics.username;
+          let username_cased = response.data.them.basics.username_cased;
+          let full_name = response.data.them.profile.full_name;
+          let location = response.data.them.profile.location;
+          let bio = response.data.them.profile.bio;
+          let website = "";
+          let logo = response.data.them.pictures.primary.url;
+
+          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} website: ${website} logo: ${logo}`);
+
+          //
+          // Insert identity
+          //
+          /*
+          var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
+          let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+          */
+
         })
         .catch(function (error) {
           // handle error
           console.log(error);
         });
       
-      //
-      // Insert identity
-      //
-      /*
-      var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
-      let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-      */
-
     }
   }
 }
