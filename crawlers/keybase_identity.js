@@ -3,6 +3,7 @@
 // Required imports
 const fs = require('fs');
 const { join } = require('path')
+const axios = require('axios');
 
 // Promise MySQL lib
 const mysql = require('mysql2/promise');
@@ -11,41 +12,57 @@ const mysql = require('mysql2/promise');
 const { mysqlConnParams } = require('../backend.config');
 
 //
-// Get Keybase identities from polkastats-v2
+// Get Keybase identities
 //
 const srcPath = "/usr/local/polkastats-v2/identities/";
 const keybaseIdentityFolders = fs.readdirSync(srcPath).filter(file => fs.statSync(join(srcPath, file)).isDirectory());
 console.log(`keybase Identity Folders:`, keybaseIdentityFolders);
 const keybaseIdentities = keybaseIdentityFolders.map(folder => {
   return {
-    folder,
+    stashId: folder,
     username: fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8').replace(/(\r\n|\n|\r)/gm, "")
   }
 });
 console.log(`keybase Identities`, keybaseIdentities);
 
-
-
-
-/* async function main () {
+async function main () {
 
   //
   // Database connection
   //
   const conn = await mysql.createConnection(mysqlConnParams);
 
+  if (keybaseIdentities.length > 0) {
+    keybaseIdentities.forEach((identity) => {
+      
+      console.log(`Identity stashId: ${identity.stashId} username: ${identity.username}`);
 
-  if (blockHeight && session) {
-    console.log(`block_height: ${blockHeight} session: ${JSON.stringify(session)}`);
-    var sqlInsert = 'INSERT INTO chain (block_height, session_json, timestamp) VALUES (\'' + blockHeight + '\', \'' + JSON.stringify(session) + '\', UNIX_TIMESTAMP());';
-    let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+      //
+      // Fetch identity object from Keybase
+      //
+      axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
+        .then(function (response) {
+          // handle success
+          console.log(`Keybase Identity:`, response);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
+      
+      //
+      // Insert identity
+      //
+      /* var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
+      let [rows, fields] = await conn.execute(sqlInsert, [2, 2]); */
+
+    }); 
   }
-
-  // https://keybase.io/_/api/1.0/user/lookup.json?username=dragonstake
-
-
 }
 
 main().catch(console.error).finally(() => process.exit());
- */
+
 
