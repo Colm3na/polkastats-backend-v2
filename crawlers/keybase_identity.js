@@ -33,14 +33,19 @@ async function main () {
   const conn = await mysql.createConnection(mysqlConnParams);
 
   if (keybaseIdentities.length > 0) {
-    keybaseIdentities.forEach((identity) => async () => {
+    keybaseIdentities.forEach((identity) => {
       
       console.log(`Identity stashId: ${identity.stashId} username: ${identity.username}`);
 
       //
       // Fetch identity object from Keybase
       //
-      await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
+      axios.get('http://webcode.me').then(resp => {
+
+          console.log(resp.data);
+      });
+
+/*       await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
         .then(function (response) {
           // handle success
           console.log(`Keybase Identity:`, response);
@@ -52,7 +57,7 @@ async function main () {
         .finally(function () {
           // always executed
         });
-      
+       */
       //
       // Insert identity
       //
