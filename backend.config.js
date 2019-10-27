@@ -1,4 +1,6 @@
 module.exports = {
+  // Enable CORS
+  enableCORS: true,
   // Backend port
   backendPort: 8443,
   // Local Polkadot Kusama node
