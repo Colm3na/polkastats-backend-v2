@@ -83,18 +83,14 @@ Output:
 ``` bash
 ● polkastats.service - PolkaStats v2 backend
    Loaded: loaded (/etc/systemd/system/polkastats.service; enabled; vendor preset: enabled)
-   Active: active (running) since Sun 2019-10-27 11:06:05 CET; 2min 45s ago
- Main PID: 30449 (node)
-    Tasks: 11 (limit: 4915)
+   Active: active (running) since Sun 2019-10-27 12:06:17 CET; 5s ago
+ Main PID: 10467 (node)
+    Tasks: 7 (limit: 4915)
    CGroup: /system.slice/polkastats.service
-           └─30449 /usr/bin/node /usr/local/polkastats-backend-v2/index.js
+           └─10467 /usr/bin/node /usr/local/polkastats-backend-v2/index.js
 
-oct 27 11:06:05 vps714213 systemd[1]: polkastats.service: Service hold-off time over, scheduling restart.
-oct 27 11:06:05 vps714213 systemd[1]: polkastats.service: Scheduled restart job, restart counter is at 4.
-oct 27 11:06:05 vps714213 systemd[1]: Stopped PolkaStats v2 backend.
-oct 27 11:06:05 vps714213 systemd[1]: Started PolkaStats v2 backend.
-oct 27 11:06:06 vps714213 polkastats-backend[30449]: HTTPS Server running on port 8443
-
+oct 27 12:06:17 vps714213 systemd[1]: Started PolkaStats v2 backend.
+oct 27 12:06:18 vps714213 polkastats-backend[10467]: PolkaStats v2 Backend HTTPS RPC running on port 8443
 ```
 
 ### Setup backend MySQL database
