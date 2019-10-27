@@ -34,8 +34,8 @@ console.log(`keybaseIdentities:`, keybaseIdentities)
   // https://keybase.io/_/api/1.0/user/lookup.json?username=dragonstake
 
 
-} */
+}
 
 main().catch(console.error).finally(() => process.exit());
-
+ */
 
