@@ -1,34 +1,28 @@
 // @ts-check
 // Required imports
 const { ApiPromise, WsProvider } = require('@polkadot/api');
-
 const https = require('https');
 const fs = require('fs');
+const express = require('express');
+const app = express();
+const mysql = require('mysql');
 
-var express = require('express');
-var app = express();
-
-var mysql = require('mysql');
-
-// Backend port
-var backendPort = 8443;
-
-// Local Polkadot node
-var wsProviderUrl = 'ws://127.0.0.1:9944';
+import {
+  backendPort,
+  wsProviderUrl,
+  mysqlConnParams,
+  privateKeyFile,
+  certificateFile,
+  caFile
+} from './backend.config'
 
 // MySQL database connection
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "polkastats",
-  password: "polkastats",
-  database: "polkastats",
-});
+const con = mysql.createConnection(mysqlConnParams);
 
-// SSL certificate files
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/polkastats.io/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/polkastats.io/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/polkastats.io/chain.pem', 'utf8');
-
+// Configure SSL certificate files
+const privateKey = fs.readFileSync(privateKeyFile, 'utf8');
+const certificate = fs.readFileSync(certificateFile, 'utf8');
+const ca = fs.readFileSync(caFile, 'utf8');
 const credentials = {
 	key: privateKey,
 	cert: certificate,
