@@ -32,11 +32,6 @@ async function main () {
   //
   const conn = await mysql.createConnection(mysqlConnParams);
 
-  await axios.get('http://webcode.me').then(resp => {
-
-    console.log(resp.data);
-});
-
   if (keybaseIdentities.length > 0) {
 
     for(let i = 0; i < keybaseIdentities.length; i++) {
@@ -50,14 +45,11 @@ async function main () {
       await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
         .then(function (response) {
           // handle success
-          console.log(`Keybase Identity:`, response);
+          console.log(`Keybase Identity:`, JSON.stringify(response.data));
         })
         .catch(function (error) {
           // handle error
           console.log(error);
-        })
-        .finally(function () {
-          // always executed
         });
       
       //
@@ -67,7 +59,7 @@ async function main () {
       var sqlInsert = 'INSERT INTO keybase_identity (stashId, username, username_cased, full_name, location, bio, website, logo, updated_at) VALUES (\'' + blockHeight + '\', UNIX_TIMESTAMP());';
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
       */
-     
+
     }
   }
 }
