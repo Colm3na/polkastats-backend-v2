@@ -17,6 +17,7 @@ const {
 } = require('./backend.config')
 
 // MySQL database connection
+console.log(mysqlConnParams);
 const con = mysql.createConnection(mysqlConnParams);
 
 // Configure SSL certificate files
