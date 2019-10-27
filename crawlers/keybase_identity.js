@@ -16,7 +16,12 @@ const { mysqlConnParams } = require('../backend.config');
 const srcPath = "/usr/local/polkastats-v2/identities/";
 const keybaseIdentityFolders = fs.readdirSync(srcPath).filter(file => fs.statSync(join(srcPath, file)).isDirectory());
 console.log(`keybase Identity Folders:`, keybaseIdentityFolders);
-const keybaseIdentities = keybaseIdentityFolders.map(folder => fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8'));
+const keybaseIdentities = keybaseIdentityFolders.map(folder => {
+  return {
+    folder,
+    username: fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8')
+  }
+});
 console.log(`keybase Identities`, keybaseIdentities);
 
 
