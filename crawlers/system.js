@@ -9,7 +9,7 @@ const mysql = require('mysql2/promise');
 const {
   wsProviderUrl,
   mysqlConnParams
-} = require('./backend.config');
+} = require('../backend.config');
 
 async function main () {
   
