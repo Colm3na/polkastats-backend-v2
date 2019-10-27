@@ -5,10 +5,18 @@ const { ApiPromise, WsProvider } = require('@polkadot/api');
 // Promise MySQL lib
 const mysql = require('mysql2/promise');
 
-// Local Polkadot node
-var wsProviderUrl = 'ws://127.0.0.1:9944';
+// Import config params
+const {
+  wsProviderUrl,
+  mysqlConnParams
+} = require('./backend.config');
 
 async function main () {
+
+  //
+  // Database connection
+  //
+  const conn = await mysql.createConnection(mysqlConnParams);
   
   //
   // Initialise the provider to connect to the local polkadot node
@@ -30,16 +38,6 @@ async function main () {
     const validatorStaking = await Promise.all(
       validators.map(authorityId => api.derive.staking.info(authorityId))
     );
-
-    //
-    // Connect to MySQL database
-    //
-    const conn = await mysql.createConnection({
-      host: "localhost",
-      user: "polkastats",
-      password: "polkastats",
-      database: 'polkastats'
-    });
 
     for (var i = 0; i < validatorStaking.length; i++) {
       //console.log(validatorStaking[i]);
