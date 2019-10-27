@@ -19,7 +19,7 @@ console.log(`keybase Identity Folders:`, keybaseIdentityFolders);
 const keybaseIdentities = keybaseIdentityFolders.map(folder => {
   return {
     folder,
-    username: fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8')
+    username: fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8').replace(/(\r\n|\n|\r)/gm, "")
   }
 });
 console.log(`keybase Identities`, keybaseIdentities);
