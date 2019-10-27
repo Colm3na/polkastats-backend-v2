@@ -81,7 +81,6 @@ systemctl status polkastats
 Output:
 
 ``` bash
-# 
 ● polkastats.service - PolkaStats v2 backend
    Loaded: loaded (/etc/systemd/system/polkastats.service; enabled; vendor preset: enabled)
    Active: active (running) since Sun 2019-10-27 11:06:05 CET; 2min 45s ago
@@ -116,7 +115,7 @@ Add this to your /etc/crontab file:
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention.js
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator.js
 
-# Execute every 10s
+# Execute chain crawler every 10s
 
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/chain.js
 * *  * * *   root     sleep 10 && node /usr/local/polkastats-backend-v2/crawlers/chain.js
