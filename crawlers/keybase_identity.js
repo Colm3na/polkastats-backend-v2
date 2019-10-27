@@ -45,7 +45,7 @@ async function main () {
       await axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${identity.username}`)
         .then(function (response) {
           // handle success
-          console.log(`Keybase Identity:`, JSON.stringify(response.data, null, 4));
+          //console.log(`Keybase Identity:`, JSON.stringify(response.data, null, 4));
 
           //
           // Get values
@@ -64,7 +64,8 @@ async function main () {
 
           for (let j = 0; j < response.data.them.proofs_summary.all.length; j++) {
             let proof = response.data.them.proofs_summary.all[j];
-            if (proof.proof_type === `twitter`) {
+            console.log(proof)
+            /* if (proof.proof_type === `twitter`) {
               twitter = proof.service_url;
             }
             if (proof.proof_type === `gitHub`) {
@@ -72,10 +73,10 @@ async function main () {
             }
             if (proof.proof_type === `dns`) {
               website = proof.service_url;
-            }
+            } */
           }
 
-          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
+          // console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
 
           //
           // Insert identity
