@@ -1,6 +1,5 @@
 // @ts-check
 // Required imports
-const { ApiPromise, WsProvider } = require('@polkadot/api');
 const https = require('https');
 const fs = require('fs');
 const express = require('express');
