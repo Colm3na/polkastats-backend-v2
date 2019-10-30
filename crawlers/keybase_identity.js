@@ -37,7 +37,7 @@ async function main () {
     for(let i = 0; i < keybaseIdentities.length; i++) {
       
       let identity = keybaseIdentities[i]
-      console.log(`Identity stashId: ${identity.stashId} username: ${identity.username}`);
+      // console.log(`Identity stashId: ${identity.stashId} username: ${identity.username}`);
 
       //
       // Fetch identity object from Keybase
@@ -76,7 +76,7 @@ async function main () {
             }
           }
 
-          console.log(`stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
+          console.log(`New identity => stashId: ${stashId} username: ${username} username_cased: ${username_cased} full_name: ${full_name} location: ${location} bio: ${bio} logo: ${logo} website: ${website} twitter: ${twitter} github: ${github} `);
 
           //
           // Insert identity
