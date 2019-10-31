@@ -70,8 +70,8 @@ app.get('/validators', async function (req, res) {
 
 app.get('/intentions', async function (req, res) {
   // Get last state
-  const intentions =  null
-  const validators = null
+  var intentions =  null
+  var validators = null
   await con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
     intentions = JSON.parse(rows[0]['json'])
