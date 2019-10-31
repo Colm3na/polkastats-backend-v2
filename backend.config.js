@@ -11,6 +11,7 @@ module.exports = {
     user: "polkastats",
     password: "polkastats",
     database: "polkastats",
+    multipleStatements: true
   },
   // SSL certificate files
   privateKeyFile: '/etc/letsencrypt/live/polkastats.io/privkey.pem',
