@@ -77,7 +77,7 @@ app.get('/intentions', function (req, res) {
 
     
     console.log(`intentions`, rows[0]['json'])
-    console.log(`validators`, ows[1]['json'])
+    console.log(`validators`, rows[1]['json'])
 
     intentions = JSON.parse(rows[0]['json'])
     validators = JSON.parse(rows[1]['json'])
