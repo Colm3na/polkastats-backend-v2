@@ -46,7 +46,7 @@ async function main () {
       if (validatorStaking[i].stakers.hasOwnProperty(`total`)) {
         bonded = validatorStaking[i].stakers.total
       }
-      var sqlInsert = "INSERT INTO validator_bonded (accountId, timestamp, amount) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + bonded + "');";
+      var sqlInsert = "INSERT INTO validator_bonded (accountId, timestamp, amount, json) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + bonded + "', '" + JSON.stringify(validatorStaking[i]) + "');";
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
     }
   }

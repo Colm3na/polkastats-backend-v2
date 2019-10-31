@@ -42,6 +42,7 @@ CREATE TABLE validator_bonded (
    accountId VARCHAR(50) NOT NULL,
    timestamp INT(8) NOT NULL,  
    amount VARCHAR(50) NOT NULL,
+   json MEDIUMTEXT NOT NULL,
    PRIMARY KEY ( id )  
 );
 
