@@ -68,7 +68,7 @@ app.get('/validators', async function (req, res) {
 });
 
 
-app.get('/intentions', async function (req, res) {
+app.get('/intentions', function (req, res) {
   // Get last state
   let intentions =  null
   let validators = null
@@ -81,6 +81,8 @@ app.get('/intentions', async function (req, res) {
     if (err) throw err;
     validators = JSON.parse(rows[0]['json'])
   });
+  console.log(`intentions`, intentions)
+  console.log(`validators`, validators)
 
   if (validators && intentions) {
     res.json(subtractValidatorsFromIntentions(validators, intentions));
