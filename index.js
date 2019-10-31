@@ -68,23 +68,23 @@ app.get('/validators', async function (req, res) {
 });
 
 
-app.get('/intentions', function (req, res) {
+app.get('/intentions', async function (req, res) {
   // Get last state
-  let intentions =  null
-  let validators = null
-  con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+  const intentions =  null
+  const validators = null
+  await con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
     intentions = JSON.parse(rows[0]['json'])
-    console.log(`intentions`, intentions)
+    // console.log(`intentions`, intentions)
   });
 
-  con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+  await con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
     validators = JSON.parse(rows[0]['json'])
-    console.log(`validators`, validators)
+    // console.log(`validators`, validators)
   });
-  // console.log(`intentions`, intentions)
-  // console.log(`validators`, validators)
+  console.log(`intentions`, intentions)
+  console.log(`validators`, validators)
 
   if (validators && intentions) {
     res.json(subtractValidatorsFromIntentions(validators, intentions));
