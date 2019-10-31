@@ -80,17 +80,15 @@ app.get('/intentions', function (req, res) {
     intentions = JSON.parse(rows[0][0]['json'])
     validators = JSON.parse(rows[1][0]['json'])
 
-    console.log(`intentions`, intentions)
-    console.log(`validators`, validators)
+    // console.log(`intentions`, intentions)
+    // console.log(`validators`, validators)
 
-    /*
     if (validators && intentions) {
       // console.log(`intentions`, intentions)
       // console.log(`validators`, validators)
       res.json(subtractValidatorsFromIntentions(validators, intentions));
     }
-    */
-   
+
   });
 });
 
