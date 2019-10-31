@@ -70,10 +70,22 @@ app.get('/validators', async function (req, res) {
 
 app.get('/intentions', async function (req, res) {
   // Get last state
+  let intentions =  null
+  let validators = null
   con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
-    if (err) throw err;  
-    res.json(JSON.parse(rows[0]['json']));
+    if (err) throw err;
+    intentions = JSON.parse(rows[0]['json'])
   });
+
+  con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;
+    validators = JSON.parse(rows[0]['json'])
+  });
+
+  if (validators && intentions) {
+    res.json(subtractValidatorsFromIntentions(validators, intentions));
+  }
+
 });
 
 
@@ -143,3 +155,24 @@ const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(backendPort, () => {
 	console.log(`PolkaStats v2 Backend HTTPS RPC running on port ${backendPort}`);
 });
+
+
+function validatorIsEqual (a, b) {
+  return a.accountId === b.accountId
+}
+
+function subtractValidatorsFromIntentions(validators, intentions) {
+  var filteredIntentions = [];
+  intentions.forEach((intention) => {
+    var found = false;
+    validators.forEach((validator) => {
+      if (validatorIsEqual(validator, intention)) {
+        found = true;
+      }  
+    });
+    if (!found) {
+      filteredIntentions.push(intention);
+    }
+  })
+  return filteredIntentions;
+}
