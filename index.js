@@ -68,17 +68,17 @@ app.get('/validators', async function (req, res) {
 });
 
 
-app.get('/intentions', async function (req, res) {
+app.get('/intentions', function (req, res) {
   // Get last state
   var intentions =  null
   var validators = null
-  await con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+  con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
     intentions = JSON.parse(rows[0]['json'])
     // console.log(`intentions`, intentions)
   });
 
-  await con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+  con.query('SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
     validators = JSON.parse(rows[0]['json'])
     // console.log(`validators`, validators)
