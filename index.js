@@ -74,10 +74,10 @@ app.get('/intentions', function (req, res) {
   var validators = null
   con.query('SELECT json FROM validator_intention WHERE 1 ORDER BY id DESC LIMIT 1; SELECT json FROM validator WHERE 1 ORDER BY id DESC LIMIT 1;', [2, 1], function(err, rows, fields) {
     if (err) throw err;
-    console.log(`rows`, rows)
-    
     console.log(`intentions`, rows[0]['json'])
-    console.log(`validators`, rows[1]['json'])
+    //console.log(`intentions`, rows[0]['json'])
+
+    //console.log(`validators`, rows[1]['json'])
 
     /* intentions = JSON.parse(rows[0]['json'])
     validators = JSON.parse(rows[1]['json'])
