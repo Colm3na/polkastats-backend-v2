@@ -43,7 +43,7 @@ async function main () {
       let account = validatorNicknames[i];
       if (account.nickname){
         console.log(JSON.stringify(account));
-        var sqlInsert = 'INSERT INTO account_nickname (accountId, nickname) VALUES (\'' + JSON.stringify(account.accountId) + '\', \'' + JSON.stringify(account.nickname) + '\');';
+        var sqlInsert = 'INSERT INTO account_nickname (accountId, nickname) VALUES (\'' + account.accountId + '\', \'' + account.nickname + '\');';
         let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
       }      
     }
