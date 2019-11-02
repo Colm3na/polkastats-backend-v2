@@ -97,6 +97,14 @@ app.get('/identities', async function (req, res) {
   });
 });
 
+app.get('/nicknames', async function (req, res) {
+  // Get last state
+  con.query('SELECT accountId, nickname FROM account_nickname WHERE 1 ORDER BY id ASC;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+});
+
 /* VALIDATOR GRAPHS */
 
 app.get('/validator/graph/daily/:accountId', function (req, res, next) {
