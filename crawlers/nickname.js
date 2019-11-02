@@ -40,6 +40,7 @@ async function main () {
 
   if (validatorNicknames.length > 0) {
     validatorNicknames.forEach(async account => {
+      console.log(account);
       if (account.hasOwnProperty(`nickname`)){
         var sqlInsert = 'INSERT INTO account_nickname (accountId, nickname) VALUES (\'' + account.accountId + '\', UNIX_TIMESTAMP(), \'' + account.nickname + '\');';
         let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
