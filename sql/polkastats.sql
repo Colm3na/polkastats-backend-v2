@@ -70,3 +70,10 @@ CREATE TABLE keybase_identity (
    updated INT(8) NOT NULL,
    PRIMARY KEY ( id )  
 );
+
+CREATE TABLE account_nickname (  
+   id INT NOT NULL AUTO_INCREMENT,
+   accountId VARCHAR(50) NOT NULL,
+   nickname VARCHAR(100) NOT NULL,
+   PRIMARY KEY ( id )  
+);
