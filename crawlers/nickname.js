@@ -29,7 +29,8 @@ async function main () {
   //
   // Fetch active and intention validator list
   //
-  const validators = await api.query.staking.validators();
+  const validatorsObject = await api.query.staking.validators();
+  const validators = validatorsObject[0][0];
 
   console.log(`validators:`, JSON.stringify(validators));
 
