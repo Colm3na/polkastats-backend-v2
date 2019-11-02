@@ -39,13 +39,14 @@ async function main () {
   );
 
   if (validatorNicknames.length > 0) {
-    validatorNicknames.forEach(async (account) => {
+    for (var i = 0; i < validatorNicknames.length; i++) {
+      let account = validatorNicknames[i];
       if (account.nickname){
         console.log(JSON.stringify(account));
         var sqlInsert = 'INSERT INTO account_nickname (accountId, nickname) VALUES (\'' + JSON.stringify(account.accountId) + '\', \'' + JSON.stringify(account.nickname) + '\');';
         let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
       }      
-    });
+    }
   }
 
   //
