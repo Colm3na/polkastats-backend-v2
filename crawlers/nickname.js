@@ -31,6 +31,8 @@ async function main () {
   //
   const validators = await api.query.staking.validators();
 
+  console.log(`validators:`, JSON.stringify(validators));
+
   //
   // Map validator authorityId to account info info object
   //
