@@ -38,7 +38,7 @@ async function main () {
     validators.map(authorityId => api.derive.accounts.info(authorityId))
   );
 
-  console.log(`validatorStaking:`, JSON.stringify(validatorStaking));
+  console.log(`nicknames:`, JSON.stringify(validatorNickname));
 
   if (validatorNickname) {
     console.log(`nicknames: ${JSON.stringify(validatorNickname)}`);
