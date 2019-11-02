@@ -29,24 +29,22 @@ async function main () {
   //
   // Fetch active and intention validator list
   //
-  const validatorsObject = await api.query.staking.validators();
-  const validators = validatorsObject[0];
-
-  console.log(`validators:`, JSON.stringify(validators));
+  const validators = await api.query.staking.validators();
 
   //
-  // Map validator authorityId to account info info object
+  // Map validator authorityId to account info object
   //
-  const validatorNickname = await Promise.all(
-    validators.map(authorityId => api.derive.accounts.info(authorityId))
+  const validatorNicknames = await Promise.all(
+    validators[0].map(authorityId => api.derive.accounts.info(authorityId))
   );
 
-  console.log(`nicknames:`, JSON.stringify(validatorNickname));
-
-  if (validatorNickname) {
-    console.log(`nicknames: ${JSON.stringify(validatorNickname)}`);
-    // var sqlInsert = 'INSERT INTO validator (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
-    // let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+  if (validatorNicknames.length > 0) {
+    validatorNicknames.forEach(async account => {
+      if (account.hasOwnProperty(`nickname`)){
+        var sqlInsert = 'INSERT INTO account_nickname (accountId, nickname) VALUES (\'' + account.accountId + '\', UNIX_TIMESTAMP(), \'' + account.nickname + '\');';
+        let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+      }      
+    });
   }
 
   //
