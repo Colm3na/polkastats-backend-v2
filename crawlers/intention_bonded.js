@@ -41,7 +41,7 @@ async function main () {
 
     for (var i = 0; i < validatorStaking.length; i++) {
       //console.log(validatorStaking[i]);
-      var sqlInsert = "INSERT INTO validator_bonded (accountId, timestamp, amount, json) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + validatorStaking[i].stakingLedger.active + "', '" + JSON.stringify(validatorStaking[i]) + "');";
+      var sqlInsert = "INSERT INTO intention_bonded (accountId, timestamp, amount, json) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + validatorStaking[i].stakingLedger.active + "', '" + JSON.stringify(validatorStaking[i]) + "');";
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
     }
   }
