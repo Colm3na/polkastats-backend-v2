@@ -27,19 +27,14 @@ async function main () {
   const api = await ApiPromise.create(provider);
 
   //
-  // Get block height
+  // Get block height, total issuance and session info
   //
-  const blockHeight = await api.derive.chain.bestNumber();
 
-  //
-  // Get total issuance
-  //
-  const totalIssuance = await api.query.balances.totalIssuance();
-
-  //
-  // Get session info
-  //
-  const session = await api.derive.session.info();
+  const [blockHeight, totalIssuance, session] = await Promise.all([
+    api.derive.chain.bestNumber(),
+    api.query.balances.totalIssuance(),
+    api.derive.session.info()
+  ]);
 
   if (blockHeight && session && totalIssuance) {
     console.log(`block_height: ${blockHeight} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
