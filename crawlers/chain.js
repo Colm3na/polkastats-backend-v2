@@ -38,7 +38,7 @@ async function main () {
 
   if (blockHeight && session && totalIssuance) {
     console.log(`block_height: ${blockHeight} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
-    var sqlInsert = 'INSERT INTO chain (block_height, session_json, total_issuance, timestamp) VALUES (\'' + blockHeight + '\', \'' + JSON.stringify(session) + '\', \'' + JSON.stringify(totalIssuance) + '\', UNIX_TIMESTAMP());';
+    var sqlInsert = 'INSERT INTO chain (block_height, session_json, total_issuance, timestamp) VALUES (\'' + blockHeight + '\', \'' + JSON.stringify(session) + '\', \'' + totalIssuance + '\', UNIX_TIMESTAMP());';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
 
