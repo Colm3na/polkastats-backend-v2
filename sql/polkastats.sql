@@ -16,6 +16,7 @@ CREATE TABLE system (
 CREATE TABLE chain (  
    id INT NOT NULL AUTO_INCREMENT,
    block_height INT(8) NOT NULL,
+   block_height_finalized INT(8) NOT NULL,
    session_json MEDIUMTEXT NOT NULL,
    total_issuance VARCHAR(50) NOT NULL,
    timestamp INT(8) NOT NULL,

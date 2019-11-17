@@ -30,15 +30,16 @@ async function main () {
   // Get block height, total issuance and session info
   //
 
-  const [blockHeight, totalIssuance, session] = await Promise.all([
+  const [blockHeight, blockHeightFinalized, totalIssuance, session] = await Promise.all([
     api.derive.chain.bestNumber(),
+    api.derive.chain.bestNumberFinalized(), 
     api.query.balances.totalIssuance(),
     api.derive.session.info()
   ]);
 
   if (blockHeight && session && totalIssuance) {
-    console.log(`block_height: ${blockHeight} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
-    var sqlInsert = 'INSERT INTO chain (block_height, session_json, total_issuance, timestamp) VALUES (\'' + blockHeight + '\', \'' + JSON.stringify(session) + '\', \'' + totalIssuance + '\', UNIX_TIMESTAMP());';
+    console.log(`block_height: ${blockHeight} block_height_finalized: ${blockHeightFinalized} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
+    var sqlInsert = 'INSERT INTO chain (block_height, block_height_finalized, session_json, total_issuance, timestamp) VALUES (\'' + blockHeight + '\', \'' + blockHeightFinalized + '\', \'' + JSON.stringify(session) + '\', \'' + totalIssuance + '\', UNIX_TIMESTAMP());';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
 
