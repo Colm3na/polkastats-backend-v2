@@ -30,11 +30,6 @@ async function main () {
   // Get best block number
   //
   const bestNumber = await api.derive.chain.bestNumber();
-
-  //
-  // Outputs JSON
-  //
-  console.log(`bestNumber:`, bestNumber);
   
   //
   // Fetch active validators
@@ -48,7 +43,19 @@ async function main () {
     validators.map(authorityId => api.derive.staking.info(authorityId))
   );
 
-  console.log(`validatorStaking:`, JSON.stringify(validatorStaking));
+  //
+  // Fetch validator isOnline status, authored blocks and received messages
+  //
+  const imOnline = await api.derive.imOnline.receivedHeartbeats();
+
+  //
+  // Add imOnline property to validator object
+  //
+  validatorStaking.forEach(function (validator) {
+    if (imOnline[validator.accountId]) {
+      validator.imOnline = imOnline[validator.accountId];
+    }
+  }, imOnline);
 
   if (validatorStaking) {
     console.log(`block_height: ${bestNumber} validators: ${JSON.stringify(validatorStaking)}`);
