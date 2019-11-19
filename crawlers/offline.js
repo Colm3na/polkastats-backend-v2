@@ -31,7 +31,7 @@ async function main () {
   //
   // Get validator outages
   //
-  const offlineEvents = await api.query.staking.recentlyOffline();
+  const offlineEvents = await api.derive.staking.recentlyOffline();
 
   if (offlineEvents && offlineEvents.length > 0) {
     for (var i = 0; i < offlineEvents.length; i++) {
