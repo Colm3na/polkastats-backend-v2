@@ -27,14 +27,14 @@ async function main () {
   const api = await ApiPromise.create(provider);
 
   //
-  // Get best block number
+  // Get best block number, active validators and imOnline data
   //
-  const bestNumber = await api.derive.chain.bestNumber();
+  const [bestNumber, validators, imOnline] = await Promise.all([
+    api.derive.chain.bestNumber(),
+    api.query.session.validators(),
+    api.derive.imOnline.receivedHeartbeats()
+  ]);
   
-  //
-  // Fetch active validators
-  //
-  const validators = await api.query.session.validators();
 
   //
   // Map validator authorityId to staking info object
@@ -42,11 +42,6 @@ async function main () {
   const validatorStaking = await Promise.all(
     validators.map(authorityId => api.derive.staking.info(authorityId))
   );
-
-  //
-  // Fetch validator isOnline status, authored blocks and received messages
-  //
-  const imOnline = await api.derive.imOnline.receivedHeartbeats();
 
   //
   // Add imOnline property to validator object
@@ -58,7 +53,7 @@ async function main () {
   }, imOnline);
 
   if (validatorStaking) {
-    console.log(`block_height: ${bestNumber} validators: ${JSON.stringify(validatorStaking)}`);
+    console.log(`validators:`, JSON.stringify(validatorStaking, null, 2));
     var sqlInsert = 'INSERT INTO validator (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
