@@ -32,6 +32,13 @@ async function main () {
   //
   const conn = await mysql.createConnection(mysqlConnParams);
 
+  
+  //
+  // Truncate table
+  //
+  const sqlTruncate = 'TRUNCATE TABLE keybase_identity;';
+  await conn.execute(sqlTruncate);
+
   if (keybaseIdentities.length > 0) {
 
     for(let i = 0; i < keybaseIdentities.length; i++) {
