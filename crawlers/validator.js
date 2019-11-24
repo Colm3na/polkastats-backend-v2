@@ -57,7 +57,8 @@ async function main () {
   //
   // Add current elected and earned era points to validator object
   //
-  validatorStaking.forEach(function (validator) {
+  for(let i = 0; i < validatorStaking.length; i++) {
+    let validator = validatorStaking[i];
     if (currentElected[validator.accountId]) {
       validator.currentElected = true;
     } else {
@@ -66,7 +67,7 @@ async function main () {
     if (currentEraPointsEarned[currentElected.indexOf(validator.accountId)]) {
       validator.currentEraPointsEarned = currentEraPointsEarned[currentElected.indexOf(validator.accountId)];
     }
-  }, currentElected);
+  }
 
   if (validatorStaking) {
     console.log(`validators:`, JSON.stringify(validatorStaking, null, 2));
