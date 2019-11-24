@@ -59,7 +59,7 @@ async function main () {
   //
   for(let i = 0; i < validatorStaking.length; i++) {
     let validator = validatorStaking[i];
-    if (currentElected.indexOf(validator.accountId)) {
+    if (Number.isInteger(currentElected.indexOf(validator.accountId))) {
       validator.currentElected = true;
     } else {
       validator.currentElected = false;
