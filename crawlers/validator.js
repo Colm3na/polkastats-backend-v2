@@ -27,12 +27,14 @@ async function main () {
   const api = await ApiPromise.create(provider);
 
   //
-  // Get best block number, active validators and imOnline data
+  // Get best block number, active validators, imOnline data, current elected and current era points earned
   //
-  const [bestNumber, validators, imOnline] = await Promise.all([
+  const [bestNumber, validators, imOnline, currentElected, currentEraPointsEarned] = await Promise.all([
     api.derive.chain.bestNumber(),
     api.query.session.validators(),
-    api.derive.imOnline.receivedHeartbeats()
+    api.derive.imOnline.receivedHeartbeats(),
+    api.query.staking.currentElected(),
+    api.query.staking.currentEraPointsEarned()
   ]);
   
 
@@ -51,6 +53,20 @@ async function main () {
       validator.imOnline = imOnline[validator.accountId];
     }
   }, imOnline);
+
+  //
+  // Add current elected and earned era points to validator object
+  //
+  validatorStaking.forEach(function (validator) {
+    if (currentElected[validator.accountId]) {
+      validator.currentElected = true;
+    } else {
+      validator.currentElected = false;
+    }
+    if (currentEraPointsEarned[currentElected.indexOf(validator.accountId)]) {
+      validator.currentEraPointsEarned = currentEraPointsEarned[currentElected.indexOf(validator.accountId)];
+    }
+  }, currentElected);
 
   if (validatorStaking) {
     console.log(`validators:`, JSON.stringify(validatorStaking, null, 2));
