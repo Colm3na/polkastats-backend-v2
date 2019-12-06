@@ -31,8 +31,8 @@ async function main () {
   //
 
   const [validatorCount, minimumValidatorCount] = await Promise.all([
-    api.chain.staking.validatorCount(),
-    api.chain.staking.minimumValidatorCount()
+    api.query.staking.validatorCount(),
+    api.query.staking.minimumValidatorCount()
   ]);
 
   console.log(validatorCount);
