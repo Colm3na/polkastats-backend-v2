@@ -33,12 +33,12 @@ async function main () {
   //
 
   const [validatorCount, minimumValidatorCount] = await Promise.all([
-    api.query.staking.validatorCount(),
-    api.query.staking.minimumValidatorCount()
+    api.query.staking.validatorCount,
+    api.query.staking.minimumValidatorCoun
   ]);
 
-  // console.log(validatorCount);
-  // console.log(minimumValidatorCount);
+  console.log(validatorCount);
+  console.log(minimumValidatorCount);
 
   
   exec(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount} -m ${minimumValidatorCount}`, (err, stdout, stderr) => {
