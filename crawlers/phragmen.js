@@ -5,7 +5,8 @@ const { ApiPromise, WsProvider } = require('@polkadot/api');
 // Promise MySQL lib
 const mysql = require('mysql2/promise');
 
-const { exec } = require('child_process');
+const { spawnSync } = require( 'child_process' );
+
 
 // Import config params
 const {
@@ -40,17 +41,11 @@ async function main () {
   // console.log(validatorCount.toString());
   // console.log(minimumValidatorCount.toString());
 
-  console.log(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount.toString()} -m ${minimumValidatorCount.toString()}`);
+  const phragmenCmd = spawnSync( '/usr/local/mario-offline-phragmen/target/release/offline-phragmen', [ '-c', validatorCount.toString(), '-m', minimumValidatorCount.toString() ] );
 
-  exec(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount.toString()} -m ${minimumValidatorCount.toString()}`, (err, stdout, stderr) => {
-    if (err) {
-      // node couldn't execute the command
-      return;
-    }
-    // the *entire* stdout and stderr (buffered)
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-  });
+  console.log( `stderr: ${phragmenCmd.stderr.toString()}` );
+  console.log( `stdout: ${phragmenCmd.stdout.toString()}` );
+
 
 //   if (blockHeight && session && totalIssuance) {
 //     console.log(`block_height: ${blockHeight} block_height_finalized: ${blockHeightFinalized} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
