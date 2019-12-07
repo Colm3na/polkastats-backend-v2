@@ -5,6 +5,8 @@ const { ApiPromise, WsProvider } = require('@polkadot/api');
 // Promise MySQL lib
 const mysql = require('mysql2/promise');
 
+const { exec } = require('child_process');
+
 // Import config params
 const {
   wsProviderUrl,
@@ -37,6 +39,17 @@ async function main () {
 
   console.log(validatorCount);
   console.log(minimumValidatorCount);
+
+  
+  exec(`/usr/local/offline-phragmen/target/release/offline-phragmen -c ${validatorCount} -m ${minimumValidatorCount}`, (err, stdout, stderr) => {
+    if (err) {
+      // node couldn't execute the command
+      return;
+    }
+    // the *entire* stdout and stderr (buffered)
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 
 //   if (blockHeight && session && totalIssuance) {
 //     console.log(`block_height: ${blockHeight} block_height_finalized: ${blockHeightFinalized} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
