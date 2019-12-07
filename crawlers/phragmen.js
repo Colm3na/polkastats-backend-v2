@@ -42,16 +42,17 @@ async function main () {
   // console.log(minimumValidatorCount.toString());
 
   const phragmenCmd = spawnSync( '/usr/local/mario-offline-phragmen/target/release/offline-phragmen', [ '-c', validatorCount.toString(), '-m', minimumValidatorCount.toString() ] );
+  
+  // console.log( `stderr: ${phragmenCmd.stderr.toString()}` );
+  // console.log( `stdout: ${phragmenCmd.stdout.toString()}` );
+  
+  const phragmen = phragmenCmd.stdout.toString();
 
-  console.log( `stderr: ${phragmenCmd.stderr.toString()}` );
-  console.log( `stdout: ${phragmenCmd.stdout.toString()}` );
-
-
-//   if (blockHeight && session && totalIssuance) {
-//     console.log(`block_height: ${blockHeight} block_height_finalized: ${blockHeightFinalized} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
-//     var sqlInsert = 'INSERT INTO chain (block_height, block_height_finalized, session_json, total_issuance, timestamp) VALUES (\'' + blockHeight + '\', \'' + blockHeightFinalized + '\', \'' + JSON.stringify(session) + '\', \'' + totalIssuance + '\', UNIX_TIMESTAMP());';
-//     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-//   }
+  if (phragmen) {
+    // console.log(`phragmen: ${phragmen}`);
+    var sqlInsert = 'INSERT INTO phragmen (phragmen_json, timestamp) VALUES (\'' + phragmen + '\', UNIX_TIMESTAMP());';
+    let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+  }
 
   //
   // Disconnect. TODO: Reuse websocket connection

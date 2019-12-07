@@ -88,3 +88,11 @@ CREATE TABLE account_nickname (
    nickname VARCHAR(100) NOT NULL,
    PRIMARY KEY ( id )  
 );
+
+
+CREATE TABLE phragmen (  
+   id INT NOT NULL AUTO_INCREMENT,
+   phragmen_json MEDIUMTEXT NOT NULL,
+   timestamp INT(8) NOT NULL,
+   PRIMARY KEY ( id )  
+);
