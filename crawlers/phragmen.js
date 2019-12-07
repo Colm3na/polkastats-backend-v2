@@ -37,19 +37,19 @@ async function main () {
     api.query.staking.minimumValidatorCount()
   ]);
 
-  console.log(validatorCount.toString());
-  console.log(minimumValidatorCount.toString());
+  // console.log(validatorCount.toString());
+  // console.log(minimumValidatorCount.toString());
 
   
-  // exec(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount} -m ${minimumValidatorCount}`, (err, stdout, stderr) => {
-  //   if (err) {
-  //     // node couldn't execute the command
-  //     return;
-  //   }
-  //   // the *entire* stdout and stderr (buffered)
-  //   console.log(`stdout: ${stdout}`);
-  //   console.log(`stderr: ${stderr}`);
-  // });
+  exec(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount.toString()} -m ${minimumValidatorCount.toString()}`, (err, stdout, stderr) => {
+    if (err) {
+      // node couldn't execute the command
+      return;
+    }
+    // the *entire* stdout and stderr (buffered)
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 
 //   if (blockHeight && session && totalIssuance) {
 //     console.log(`block_height: ${blockHeight} block_height_finalized: ${blockHeightFinalized} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
