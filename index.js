@@ -107,6 +107,14 @@ app.get('/nicknames', async function (req, res) {
   });
 });
 
+app.get('/phragmen', async function (req, res) {
+  // Get last state
+  con.query('SELECT phragmen_json FROM phragmen WHERE 1 ORDER BY id DESC LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(JSON.parse(rows[0]['phragmen_json']));
+  });
+});
+
 /* VALIDATOR GRAPHS */
 
 app.get('/validator/graph/daily/:accountId', function (req, res, next) {
