@@ -40,7 +40,8 @@ async function main () {
   // console.log(validatorCount.toString());
   // console.log(minimumValidatorCount.toString());
 
-  
+  console.log(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount.toString()} -m ${minimumValidatorCount.toString()}`);
+
   exec(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount.toString()} -m ${minimumValidatorCount.toString()}`, (err, stdout, stderr) => {
     if (err) {
       // node couldn't execute the command
