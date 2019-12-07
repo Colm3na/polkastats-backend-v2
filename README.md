@@ -118,8 +118,13 @@ Add this to your /etc/crontab file:
 * *  * * *   root     sleep 40 && node /usr/local/polkastats-backend-v2/crawlers/chain.js 2>&1 >/dev/null
 * *  * * *   root     sleep 50 && node /usr/local/polkastats-backend-v2/crawlers/chain.js 2>&1 >/dev/null
 
-# Execute every 1m
+# Execute phragmen.js crawler every 10s
 * *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/phragmen.js 2>&1 >/dev/null
+* *  * * *   root     sleep 10 && node /usr/local/polkastats-backend-v2/crawlers/phragmen.js 2>&1 >/dev/null
+* *  * * *   root     sleep 20 && node /usr/local/polkastats-backend-v2/crawlers/phragmen.js 2>&1 >/dev/null
+* *  * * *   root     sleep 30 && node /usr/local/polkastats-backend-v2/crawlers/phragmen.js 2>&1 >/dev/null
+* *  * * *   root     sleep 40 && node /usr/local/polkastats-backend-v2/crawlers/phragmen.js 2>&1 >/dev/null
+* *  * * *   root     sleep 50 && node /usr/local/polkastats-backend-v2/crawlers/phragmen.js 2>&1 >/dev/null
 
 # Execute every 5m
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js 2>&1 >/dev/null
