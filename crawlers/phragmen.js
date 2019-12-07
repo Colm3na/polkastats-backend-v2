@@ -37,8 +37,8 @@ async function main () {
     api.query.staking.minimumValidatorCount()
   ]);
 
-  console.log(validatorCount);
-  console.log(minimumValidatorCount);
+  console.log(validatorCount.toString());
+  console.log(minimumValidatorCount.toString());
 
   
   exec(`/usr/local/mario-offline-phragmen/target/release/offline-phragmen -c ${validatorCount} -m ${minimumValidatorCount}`, (err, stdout, stderr) => {
