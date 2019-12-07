@@ -48,6 +48,9 @@ CREATE TABLE validator_bonded (
    PRIMARY KEY ( id )  
 );
 
+ALTER TABLE `validator_bonded` ADD INDEX `accountId` (`accountId`);
+ALTER TABLE `validator_bonded` ADD INDEX `timestamp` (`timestamp`);
+
 CREATE TABLE intention_bonded (  
    id INT NOT NULL AUTO_INCREMENT,
    accountId VARCHAR(50) NOT NULL,
@@ -56,6 +59,9 @@ CREATE TABLE intention_bonded (
    json MEDIUMTEXT NOT NULL,
    PRIMARY KEY ( id )  
 );
+
+ALTER TABLE `intention_bonded` ADD INDEX `accountId` (`accountId`);
+ALTER TABLE `intention_bonded` ADD INDEX `timestamp` (`timestamp`);
 
 CREATE TABLE validator_offline (  
    id INT NOT NULL AUTO_INCREMENT,
