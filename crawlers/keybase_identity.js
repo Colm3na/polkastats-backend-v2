@@ -18,9 +18,11 @@ const srcPath = "/usr/local/polkastats-v2/identities/";
 const keybaseIdentityFolders = fs.readdirSync(srcPath).filter(file => fs.statSync(join(srcPath, file)).isDirectory());
 //console.log(`keybase Identity Folders:`, keybaseIdentityFolders);
 const keybaseIdentities = keybaseIdentityFolders.map(folder => {
-  return {
-    stashId: folder,
-    username: fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8').replace(/(\r\n|\n|\r)/gm, "")
+  if (fs.existsSync(join(srcPath, folder, `keybase_username`))) {
+    return {
+      stashId: folder,
+      username: fs.readFileSync(join(srcPath, folder, `keybase_username`), 'utf-8').replace(/(\r\n|\n|\r)/gm, "")
+    }
   }
 });
 //console.log(`keybase Identities`, keybaseIdentities);
