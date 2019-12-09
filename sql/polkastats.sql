@@ -78,7 +78,7 @@ CREATE TABLE keybase_identity (
    username_cased VARCHAR(50) NOT NULL,
    full_name VARCHAR(100) NOT NULL,
    location VARCHAR(100) NOT NULL,
-   bio VARCHAR(100) NOT NULL,
+   bio VARCHAR(200) NOT NULL,
    logo VARCHAR(100) NOT NULL,
    website VARCHAR(100) NOT NULL,
    twitter VARCHAR(100) NOT NULL,
