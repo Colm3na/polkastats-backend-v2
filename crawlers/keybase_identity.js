@@ -41,6 +41,8 @@ async function main () {
   const sqlTruncate = 'TRUNCATE TABLE keybase_identity;';
   await conn.execute(sqlTruncate);
 
+  console.log(keybaseIdentities);
+
   if (keybaseIdentities.length > 0) {
 
     for(let i = 0; i < keybaseIdentities.length; i++) {
