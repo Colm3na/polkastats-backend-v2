@@ -43,6 +43,8 @@ async function main () {
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
 
+  conn.end();
+
   //
   // Disconnect. TODO: Reuse websocket connection
   //

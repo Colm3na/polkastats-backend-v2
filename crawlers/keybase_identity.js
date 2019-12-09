@@ -103,6 +103,7 @@ async function main () {
       
     }
   }
+  conn.end();
 }
 
 main().catch(console.error).finally(() => process.exit());

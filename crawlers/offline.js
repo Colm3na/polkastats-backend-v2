@@ -47,6 +47,13 @@ async function main () {
       }
     }
   }
+  
+  conn.end();
+
+  //
+  // Disconnect. TODO: Reuse websocket connection
+  //
+  provider.disconnect();
 }
 
 main().catch(console.error).finally(() => process.exit());

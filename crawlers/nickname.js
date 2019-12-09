@@ -49,6 +49,8 @@ async function main () {
     }
   }
 
+  conn.end();
+
   //
   // Disconnect. TODO: Reuse websocket connection
   //

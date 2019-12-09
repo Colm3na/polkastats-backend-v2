@@ -74,6 +74,8 @@ async function main () {
     var sqlInsert = 'INSERT INTO validator (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
+  
+  conn.end();
 
   //
   // Disconnect. TODO: Reuse websocket connection
