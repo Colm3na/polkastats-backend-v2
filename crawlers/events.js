@@ -1,48 +1,36 @@
-// @ts-check
-// Required imports
-const { ApiPromise, WsProvider } = require('@polkadot/api');
-
-// Promise MySQL lib
-const mysql = require('mysql2/promise');
-
-// Import config params
-const {
-  wsProviderUrl,
-  mysqlConnParams
-} = require('../backend.config');
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-var-requires */
+// Import the API
+const { ApiPromise } = require('@polkadot/api');
 
 async function main () {
-
-  //
-  // Database connection
-  //
-  // const conn = await mysql.createConnection(mysqlConnParams);
-  
-  //
-  // Initialise the provider to connect to the local polkadot node
-  //
-  const provider = new WsProvider(wsProviderUrl);
-
-  // Create the API and wait until ready
-  const api = await ApiPromise.create(provider);
-
-  //
-  // Get block height, total issuance and session info
-  //
+  // Create our API with a default connection to the local node
+  const api = await ApiPromise.create();
 
   // Subscribe to system events via storage
-  await api.query.system.events((events) => {
-    console.log('----- Received ' + events.length + ' event(s): -----');
-    // loop through the Vec<EventRecord>
+  api.query.system.events((events) => {
+    console.log(`\nReceived ${events.length} events:`);
+
+    // Loop through the Vec<EventRecord>
     events.forEach((record) => {
-      console.log(JSON.stringify(record, null, 2));
+      // Extract the phase, event and the event types
+      const { event, phase } = record;
+      const types = event.typeDef;
+
+      // Show what we are busy with
+      console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
+      console.log(`\t\t${event.meta.documentation.toString()}`);
+
+      // Loop through each of the parameters, displaying the type and data
+      event.data.forEach((data, index) => {
+        console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
+      });
     });
   });
-
-  //
-  // Disconnect. TODO: Reuse websocket connection
-  //
-  // provider.disconnect();
 }
 
-// main().catch(console.error).finally(() => process.exit());
+main().catch((error) => {
+  console.error(error);
+  process.exit(-1);
+});
