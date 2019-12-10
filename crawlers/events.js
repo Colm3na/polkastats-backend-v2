@@ -31,7 +31,7 @@ async function main () {
   //
 
   // Subscribe to system events via storage
-  api.query.system.events((events) => {
+  await api.query.system.events((events) => {
     console.log('----- Received ' + events.length + ' event(s): -----');
     // loop through the Vec<EventRecord>
     events.forEach((record) => {
