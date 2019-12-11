@@ -9,7 +9,7 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Subscribe to system events via storage
-  api.query.system.events((events) => {
+  api.query.system.events( async (events) => {
 
 
     const [bestNumber, bestNumberFinalized, sessionInfo] = await Promise.all([
