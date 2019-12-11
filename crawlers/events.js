@@ -37,7 +37,7 @@ async function main () {
       // console.log(`\t\t${event.meta.documentation.toString()}`);
 
       // Loop through each of the parameters, displaying the type and data
-      event.data.forEach((data, index) => {
+      event.data.forEach( async (data, index) => {
         // console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
 
         let blockNumber = header.number.toNumber() - 1;
