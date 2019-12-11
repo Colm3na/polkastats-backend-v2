@@ -10,12 +10,10 @@ async function main () {
   const api = await ApiPromise.create();
 
   const unsubscribe = await api.rpc.chain.subscribeNewHeads( async (header) => {
-    
-    console.log(`Block #${header.number-1}`);
 
     const events = await api.query.system.events.at(header.parentHash);
     
-    console.log(`\nReceived ${events.length} events:\n`);
+    console.log(`\nReceived ${events.length} events at block #${header.number-1}:\n`);
 
     // Loop through the Vec<EventRecord>
     events.forEach((record, index) => {
