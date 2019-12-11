@@ -5,16 +5,16 @@
 const { ApiPromise } = require('@polkadot/api');
 
 async function main () {
+  
   // Create our API with a default connection to the local node
   const api = await ApiPromise.create();
 
-  // Subscribe to system events via storage
-  api.query.system.events(events => {
+  const unsubscribe = await api.rpc.chain.subscribeNewHeads( async (header) => {
     
-    // Block height is not 100% accurate, get duplicated in some cases
-    // const blockHeight = await api.derive.chain.bestNumber();
+    console.log(`Block #${header.number-1}`);
 
-    // console.log(`\nReceived ${events.length} events at block #${blockHeight}:\n`);
+    const events = await api.query.system.events.at(header.parentHash);
+    
     console.log(`\nReceived ${events.length} events:\n`);
 
     // Loop through the Vec<EventRecord>
@@ -32,10 +32,13 @@ async function main () {
         console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
       });
     });
+
   });
+
 }
 
 main().catch((error) => {
   console.error(error);
   process.exit(-1);
 });
+
