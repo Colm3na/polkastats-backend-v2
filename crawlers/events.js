@@ -13,7 +13,7 @@ async function main () {
 
     const blockHeight = await api.derive.chain.bestNumber();
 
-    console.log(`\nRBlock height: ${blockHeight}: Received ${events.length} events:`);
+    console.log(`\nReceived ${events.length} events at block #${blockHeight}:`);
 
     // Loop through the Vec<EventRecord>
     events.forEach((record) => {
