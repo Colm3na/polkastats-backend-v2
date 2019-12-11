@@ -17,13 +17,13 @@ async function main () {
     console.log(`\nReceived ${events.length} events at block #${blockHeight}:`);
 
     // Loop through the Vec<EventRecord>
-    events.forEach((record) => {
+    events.forEach((record, index) => {
       // Extract the phase, event and the event types
       const { event, phase } = record;
       const types = event.typeDef;
 
       // Show what we are busy with
-      console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
+      console.log(`\t${index} ${event.section}:${event.method}:: (phase=${phase.toString()})`);
       console.log(`\t\t${event.meta.documentation.toString()}`);
 
       // Loop through each of the parameters, displaying the type and data
