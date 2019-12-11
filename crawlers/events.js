@@ -9,18 +9,11 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Subscribe to system events via storage
-  api.query.system.events( async (events) => {
+  api.query.system.events(async events => {
 
+    const blockHeight = await api.derive.chain.bestNumber();
 
-    const [bestNumber, bestNumberFinalized, sessionInfo] = await Promise.all([
-      api.derive.chain.bestNumber(),
-      api.derive.chain.bestNumberFinalized(),
-      api.derive.session.info()
-    ]);
-
-    console.log(`\nBlock height: ${bestNumber} Finalized block height: ${bestNumberFinalized} sessionInfo: ${JSON.stringify(sessionInfo, null, 2)}`);
-
-    console.log(`\nReceived ${events.length} events:`);
+    console.log(`\nRBlock height: ${blockHeight}: Received ${events.length} events:`);
 
     // Loop through the Vec<EventRecord>
     events.forEach((record) => {
