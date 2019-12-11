@@ -95,10 +95,47 @@ CREATE TABLE account_nickname (
    PRIMARY KEY ( id )  
 );
 
-
 CREATE TABLE phragmen (  
    id INT NOT NULL AUTO_INCREMENT,
    phragmen_json MEDIUMTEXT NOT NULL,
    timestamp INT(8) NOT NULL,
    PRIMARY KEY ( id )  
 );
+
+-- {
+--   "parentHash": "0x373c7cd321c027faebd126be7e873a26e8cfc0e16e48806d08c70030a9543aa0",
+--   "number": 182472,
+--   "stateRoot": "0xe1a9d9a96a9d5af31135c161fe463b794748fcf76aaec561a4c15131714bef53",
+--   "extrinsicsRoot": "0x578cb4cce581c3d9fc545d1426eae8f428a9ba67b5330871257622b49f05c885",
+--   "digest": {
+--     "logs": [
+--       "0x06424142453402710000000933a80f00000000",
+--       "0x054241424501015ade1786690fd9cf3c1f537184cc3a41cdba9b412e74b4a6c2cfc143a786d35bdf21dc7224eb96b0c55b52af373e2d0b1225680c39abc6934acf016fb853018f"
+--     ]
+--   }
+-- }
+
+CREATE TABLE block (  
+   id INT NOT NULL AUTO_INCREMENT,
+   parentHash VARCHAR(100) NOT NULL,
+   blockNumber BIGINT NOT NULL,
+   stateRoot VARCHAR(100) NOT NULL,
+   blockDigest MEDIUMTEXT NOT NULL,
+   PRIMARY KEY ( id )  
+);
+
+
+CREATE TABLE event (  
+   id INT NOT NULL AUTO_INCREMENT,
+   blockNumber BIGINT NOT NULL,
+   section VARCHAR(100) NOT NULL,
+   method VARCHAR(100) NOT NULL,
+   phase VARCHAR(100) NOT NULL,
+   documentation VARCHAR(100) NOT NULL,
+   type VARCHAR(100) NOT NULL,
+   data MEDIUMTEXT NOT NULL,
+   PRIMARY KEY ( id )  
+);
+
+
+
