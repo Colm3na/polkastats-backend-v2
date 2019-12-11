@@ -14,7 +14,8 @@ async function main () {
     // Block height is not 100% accurate, get duplicated in some cases
     // const blockHeight = await api.derive.chain.bestNumber();
 
-    console.log(`\nReceived ${events.length} events at block #${blockHeight}:\n`);
+    // console.log(`\nReceived ${events.length} events at block #${blockHeight}:\n`);
+    console.log(`\nReceived ${events.length} events:\n`);
 
     // Loop through the Vec<EventRecord>
     events.forEach((record, index) => {
