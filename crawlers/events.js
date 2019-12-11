@@ -9,10 +9,10 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Subscribe to system events via storage
-  api.query.system.events(async events => {
+  api.query.system.events(events => {
 
     let blockHeight;
-    setTimeout(function(){
+    setTimeout(async () => {
       blockHeight = await api.derive.chain.bestNumber();
     }, 1000);
 
