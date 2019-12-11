@@ -35,7 +35,7 @@ async function main () {
       var sqlSelect = 'SELECT * FROM event WHERE blockNumber = ' + blockNumber + ';';
       let [rows, fields] = await conn.execute(sqlSelect, [2, 2]);
         
-      if (rows === 0) {
+      if (rows.length === 0) {
         event.data.forEach( async (data, index) => {
           console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, type: ${types[index].type}, data: ${data.toString()}`);
           var sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, documentation, type, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + event.meta.documentation.toString() + '\', \'' + types[index].type + '\', \'' + data.toString() + '\');';
