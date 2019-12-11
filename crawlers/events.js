@@ -11,7 +11,10 @@ async function main () {
   // Subscribe to system events via storage
   api.query.system.events(async events => {
 
-    const blockHeight = await api.derive.chain.bestNumber();
+    let blockHeight;
+    setTimeout(function(){
+      blockHeight = await api.derive.chain.bestNumber();
+    }, 1000);
 
     console.log(`\nReceived ${events.length} events at block #${blockHeight}:`);
 
