@@ -9,9 +9,9 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Subscribe to system events via storage
-  api.query.system.events(events => {
-
-    const blockHeight = api.derive.chain.bestNumber();
+  api.query.system.events(async events => {
+    
+    const blockHeight = await api.query.system.number();
 
     console.log(`\nReceived ${events.length} events at block #${blockHeight}:`);
 
