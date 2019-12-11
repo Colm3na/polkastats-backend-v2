@@ -23,8 +23,6 @@ async function main () {
   const unsubscribe = await api.rpc.chain.subscribeNewHeads( async (header) => {
 
     const events = await api.query.system.events.at(header.parentHash);
-    
-    // console.log(`\nReceived ${events.length} events at block #${header.number-1}:\n`);
 
     // Loop through the Vec<EventRecord>
     events.forEach( async (record, index) => {
@@ -32,25 +30,21 @@ async function main () {
       const { event, phase } = record;
       const types = event.typeDef;
 
-      // Show what we are busy with
-      // console.log(`\t${index+1}. ${event.section}:${event.method}:: (phase=${phase.toString()})`);
-      // console.log(`\t\t${event.meta.documentation.toString()}`);
-
-      // Loop through each of the parameters, displaying the type and data
-      event.data.forEach( async (data, index) => {
-        // console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
-
-        let blockNumber = header.number.toNumber() - 1;
-
-        console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, type: ${types[index].type}, data: ${data.toString()}`);
-        var sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, documentation, type, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + event.meta.documentation.toString() + '\', \'' + types[index].type + '\', \'' + data.toString() + '\');';
-        // console.log(sqlInsert);
-        let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-      });
+      // Skip insert if events was already in database for that block
+      let blockNumber = header.number.toNumber() - 1;
+      var sqlSelect = 'SELECT FROM event WHERE blockNumber = ' + blockNumber + ';';
+      let [rows, fields] = await conn.execute(sqlSelect, [2, 2]);
+        
+      if (rows === 0) {
+        event.data.forEach( async (data, index) => {
+          console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, type: ${types[index].type}, data: ${data.toString()}`);
+          var sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, documentation, type, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + event.meta.documentation.toString() + '\', \'' + types[index].type + '\', \'' + data.toString() + '\');';
+          // console.log(sqlInsert);
+          let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+        });
+      }
     });
-
   });
-
 }
 
 main().catch((error) => {
