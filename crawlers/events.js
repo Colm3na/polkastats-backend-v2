@@ -33,16 +33,16 @@ async function main () {
       console.log(`types`, JSON.stringify(record, null, 2));
 
       // Skip insert if events was already in database for that block
-      let blockNumber = header.number.toNumber() - 1;
-      var sqlSelect = 'SELECT * FROM event WHERE blockNumber = ' + blockNumber + ';';
-      let [rows, fields] = await conn.execute(sqlSelect, [2, 2]);
+      // let blockNumber = header.number.toNumber() - 1;
+      // var sqlSelect = 'SELECT * FROM event WHERE blockNumber = ' + blockNumber + ';';
+      // let [rows, fields] = await conn.execute(sqlSelect, [2, 2]);
         
-      if (rows.length === 0) {
-        console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
-        var sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
-        // console.log(sqlInsert);
-        let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-      }
+      // if (rows.length === 0) {
+      //   console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
+      //   var sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
+      //   // console.log(sqlInsert);
+      //   let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+      // }
     });
   });
 }
