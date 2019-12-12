@@ -131,7 +131,7 @@ CREATE TABLE event (
    section VARCHAR(100) NOT NULL,
    method VARCHAR(100) NOT NULL,
    phase VARCHAR(100) NOT NULL,
-   documentation VARCHAR(100) NOT NULL,
+   documentation VARCHAR(200) NOT NULL,
    type VARCHAR(100) NOT NULL,
    data MEDIUMTEXT NOT NULL,
    PRIMARY KEY ( id )  
