@@ -39,6 +39,7 @@ async function main () {
         
       // if (rows.length === 0) {
         event.data.forEach( async (data, index) => {
+          console.log(JSON.stringify(data, null, 2));
           console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, eventDataIndex: ${index}, type: ${types[index].type}, data: ${data.toString()}`);
           // var sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, documentation, type, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + event.meta.documentation.toString() + '\', \'' + types[index].type + '\', \'' + data.toString() + '\');';
           // // console.log(sqlInsert);
