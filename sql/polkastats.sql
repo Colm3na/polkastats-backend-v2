@@ -128,6 +128,7 @@ CREATE TABLE block (
 CREATE TABLE event (  
    id INT NOT NULL AUTO_INCREMENT,
    blockNumber BIGINT NOT NULL,
+   eventIndex INT NOT NULL,
    section VARCHAR(100) NOT NULL,
    method VARCHAR(100) NOT NULL,
    phase VARCHAR(100) NOT NULL,

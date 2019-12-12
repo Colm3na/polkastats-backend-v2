@@ -25,7 +25,7 @@ async function main () {
     const events = await api.query.system.events.at(header.parentHash);
 
     // Loop through the Vec<EventRecord>
-    events.forEach( async record => {
+    events.forEach( async (record, index) => {
       // Extract the phase and event
       const { event, phase } = record;
 
@@ -38,8 +38,8 @@ async function main () {
       
       // Skip insert if events was already in database for that block
       if (rows.length === 0) {
-        console.log(`blockNumber: ${blockNumber}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
-        const sqlInsert = 'INSERT INTO event (blockNumber, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
+        console.log(`blockNumber: ${blockNumber}, index: ${index}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
+        const sqlInsert = 'INSERT INTO event (blockNumber, eventIndex, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + index + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
         const [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
       }
     });
