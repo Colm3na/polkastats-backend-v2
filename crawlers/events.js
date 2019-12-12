@@ -33,7 +33,7 @@ async function main () {
       console.log(`types`, JSON.stringify(types, null, 2));
 
       // Skip insert if events was already in database for that block
-      // let blockNumber = header.number.toNumber() - 1;
+      let blockNumber = header.number.toNumber() - 1;
       // var sqlSelect = 'SELECT * FROM event WHERE blockNumber = ' + blockNumber + ';';
       // let [rows, fields] = await conn.execute(sqlSelect, [2, 2]);
         
