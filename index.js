@@ -119,10 +119,10 @@ app.get('/phragmen', async function (req, res) {
 /* EVENTS */
 
 
-// Get last 1000 events
+// Get last 10000 events
 app.get('/events', async function (req, res) {
   // Get last state
-  con.query('SELECT blockNumber, eventIndex, section, method, phase, data FROM event WHERE 1 ORDER BY id DESC LIMIT 1000;', function(err, rows, fields) {
+  con.query('SELECT blockNumber, eventIndex, section, method, phase, data FROM event WHERE 1 ORDER BY id DESC LIMIT 10000;', function(err, rows, fields) {
     if (err) throw err;  
     res.json(rows);
   });
