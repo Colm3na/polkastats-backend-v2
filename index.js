@@ -115,6 +115,20 @@ app.get('/phragmen', async function (req, res) {
   });
 });
 
+
+/* EVENTS */
+
+
+// Get last 1000 events
+app.get('/events', async function (req, res) {
+  // Get last state
+  con.query('SELECT blockNumber, eventIndex, section, method, phase, data FROM event WHERE 1 ORDER BY id DESC LIMIT 1000;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(JSON.parse(rows[0]['phragmen_json']));
+  });
+});
+
+
 /* VALIDATOR GRAPHS */
 
 app.get('/validator/graph/daily/:accountId', function (req, res, next) {
