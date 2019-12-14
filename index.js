@@ -121,7 +121,7 @@ app.get('/phragmen', async function (req, res) {
 // Get last 5,000 events
 app.get('/events', async function (req, res) {
   // Get last state
-  con.query('SELECT blockNumber, eventIndex, section, method, phase, data FROM event WHERE eventIndex != "system" and method != "ExtrinsicSuccess" ORDER BY id DESC LIMIT 5000;', function(err, rows, fields) {
+  con.query('SELECT blockNumber, eventIndex, section, method, phase, data FROM event WHERE eventIndex != "system" ORDER BY id DESC LIMIT 5000;', function(err, rows, fields) {
     if (err) throw err;  
     res.json(rows);
   });
