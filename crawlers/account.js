@@ -19,11 +19,14 @@ async function main () {
   const api = await ApiPromise.create();
   
   // Fetch active accounts
+  
   const accounts = await api.derive.accounts.indexes();
 
   console.log(JSON.stringify(accounts, null, 2));
 
-  accounts.forEach( async account => {
+  const accountsArray = JSON.parse(JSON.stringify(accounts))
+
+  accountsArray.forEach( async account => {
     console.log(JSON.stringify(account));
     var sqlInsert = 'INSERT INTO account_index (accountId, accountIndex) VALUES (\'' + account.accountId + '\', \'' + account.accountIndex + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);     
