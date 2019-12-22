@@ -1,6 +1,6 @@
 // @ts-check
 // Required imports
-const { ApiPromise, WsProvider } = require('@polkadot/api');
+const { ApiPromise } = require('@polkadot/api');
 
 // Promise MySQL lib
 const mysql = require('mysql2/promise');

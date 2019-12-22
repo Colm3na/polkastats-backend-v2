@@ -1,13 +1,12 @@
 // @ts-check
 // Required imports
-const { ApiPromise, WsProvider } = require('@polkadot/api');
+const { ApiPromise } = require('@polkadot/api');
 
 // Promise MySQL lib
 const mysql = require('mysql2/promise');
 
 // Import config params
 const {
-  wsProviderUrl,
   mysqlConnParams
 } = require('../backend.config');
 
@@ -19,12 +18,9 @@ async function main () {
   const conn = await mysql.createConnection(mysqlConnParams);
 
   //
-  // Initialise the provider to connect to the local polkadot node
+  // Create API with a default connection to the local node
   //
-  const provider = new WsProvider(wsProviderUrl);
-
-  // Create the API and wait until ready
-  const api = await ApiPromise.create(provider);
+  const api = await ApiPromise.create();
 
   //
   // Fetch chain, node name and node version
