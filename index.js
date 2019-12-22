@@ -127,6 +127,17 @@ app.get('/events', async function (req, res) {
   });
 });
 
+/* ACCOUNT INDEXES */
+
+// Get all active accounts indexes
+app.get('/indexes', async function (req, res) {
+  // Get last state
+  con.query('SELECT accountId, accountIndex FROM account_index WHERE 1 ORDER BY id DESC;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+});
+
 
 /* VALIDATOR GRAPHS */
 
