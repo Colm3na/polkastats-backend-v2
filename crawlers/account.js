@@ -7,6 +7,7 @@ const mysql = require('mysql2/promise');
 
 // Import config params
 const {
+  wsProviderUrl,
   mysqlConnParams
 } = require('../backend.config');
 
@@ -15,8 +16,11 @@ async function main () {
   // Database connection
   const conn = await mysql.createConnection(mysqlConnParams);
   
-  // Create API with a default connection to the local node
-  const api = await ApiPromise.create();
+  // Initialise the provider to connect to the local polkadot node
+  const provider = new WsProvider(wsProviderUrl);
+
+  // Create the API and wait until ready
+  const api = await ApiPromise.create({ provider });
   
   // Fetch active accounts
   const accounts = await api.derive.accounts.indexes();
