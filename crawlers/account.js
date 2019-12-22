@@ -23,7 +23,7 @@ async function main () {
 
   console.log(JSON.stringify(accounts, null, 2));
 
-  accounts.forEach( account => {
+  accounts.forEach( async account => {
     console.log(JSON.stringify(account));
     var sqlInsert = 'INSERT INTO account_index (accountId, accountIndex) VALUES (\'' + account.accountId + '\', \'' + account.accountIndex + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);     
