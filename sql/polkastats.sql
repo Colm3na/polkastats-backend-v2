@@ -124,7 +124,6 @@ CREATE TABLE block (
    PRIMARY KEY ( id )  
 );
 
-
 CREATE TABLE event (  
    id INT NOT NULL AUTO_INCREMENT,
    blockNumber BIGINT NOT NULL,
@@ -136,5 +135,9 @@ CREATE TABLE event (
    PRIMARY KEY ( id )  
 );
 
-
-
+CREATE TABLE account_index (  
+   id INT NOT NULL AUTO_INCREMENT,
+   accountId VARCHAR(50) NOT NULL,
+   accountIndex VARCHAR(50) NOT NULL,
+   PRIMARY KEY ( id )  
+);
