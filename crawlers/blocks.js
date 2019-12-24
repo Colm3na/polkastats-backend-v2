@@ -28,6 +28,12 @@ async function main () {
     // Get block number
     const blockNumber = header.number.toNumber();
 
+    // Get block hash
+    const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+
+    // Get extended block header
+    const extendedHeader = await api.derive.chain.getHeader(blockHash);
+
     // Get block parent hash
     const parentHash = header.parentHash;
     
@@ -37,29 +43,21 @@ async function main () {
     // Get block state root
     const stateRoot = header.stateRoot;
 
-    // Get block hash
-    const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-
-    // Get extended block header
-    const extendedHeader = await api.derive.chain.getHeader(blockHash);
-
-    // Get block author, best finalized block, total issuance and session info
-    const [blockAuthor, blockNumberFinalized, totalIssuance, session] = await Promise.all([
-      api.query.authorship.author(),
+    // Get best finalized block, total issuance and session info
+    const [blockFinalized, totalIssuance, session] = await Promise.all([
       api.derive.chain.bestNumberFinalized(), 
       api.query.balances.totalIssuance(),
       api.derive.session.info()
     ]);
 
-    console.error(`Best block: #${blockNumber} finalized: #${blockNumberFinalized}`);
-    console.error(`\tauthor: ${blockAuthor}`);
+    console.error(`Best block: #${blockNumber} finalized: #${blockFinalized}`);
+    console.error(`\tauthor: ${extendedHeader.author}`);
     console.error(`\tblockHash: ${blockHash}`);
     console.error(`\tparentHash: ${parentHash}`);
     console.error(`\textrinsicsRoot: ${extrinsicsRoot}`);
     console.error(`\tstateRoot: ${stateRoot}`);
     console.error(`\ttotalIssuance: ${totalIssuance}`);
     console.error(`\tsession: ${JSON.stringify(session)}`);
-    console.error(`\textendedHeader: ${JSON.stringify(extendedHeader)}`);
 
   });
 }
