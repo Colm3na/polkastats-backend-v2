@@ -38,7 +38,7 @@ async function main () {
     const stateRoot = header.stateRoot;
 
     // Get block hash
-    const blockHash = api.rpc.chain.getBlockHash(blockNumber);
+    const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
 
     // Get extended block header
     const extendedHeader = await api.derive.chain.getHeader(blockHash);
