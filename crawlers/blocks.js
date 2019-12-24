@@ -38,6 +38,8 @@ async function main () {
       api.derive.session.info()
     ]);
     
+    console.error(`header: ${JSON.stringify(header)}`);
+
     console.error(`block: #${blockNumber} author: ${blockAuthor}`);
     console.log(`block_height: ${blockHeight} block_height_finalized: ${blockHeightFinalized} session: ${JSON.stringify(session)} total_issuance: ${totalIssuance}`);
 
