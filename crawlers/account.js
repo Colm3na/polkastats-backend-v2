@@ -44,7 +44,6 @@ async function main () {
         console.log("New account index: " + key + " -> " + accounts[key]);
         sql = 'INSERT INTO account_index (accountId, accountIndex) VALUES (\'' + key + '\', \'' + accounts[key] + '\');';
         await conn.execute(sql, [2, 2]);
-        }
       }
     }
   }
