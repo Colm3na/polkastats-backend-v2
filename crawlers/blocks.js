@@ -37,6 +37,12 @@ async function main () {
     // Get block state root
     const stateRoot = header.stateRoot;
 
+    // Get block hash
+    const blockHash = api.rpc.chain.getBlockHash(blockNumber);
+
+    // Get extended block header
+    const extendedHeader = await api.derive.chain.getHeader(blockHash);
+
     // Get block author, best finalized block, total issuance and session info
     const [blockAuthor, blockNumberFinalized, totalIssuance, session] = await Promise.all([
       api.query.authorship.author(),
@@ -47,11 +53,13 @@ async function main () {
 
     console.error(`Best block: #${blockNumber} finalized: #${blockNumberFinalized}`);
     console.error(`\tauthor: ${blockAuthor}`);
+    console.error(`\tblockHash: ${blockHash}`);
     console.error(`\tparentHash: ${parentHash}`);
     console.error(`\textrinsicsRoot: ${extrinsicsRoot}`);
     console.error(`\tstateRoot: ${stateRoot}`);
     console.error(`\ttotalIssuance: ${totalIssuance}`);
     console.error(`\tsession: ${JSON.stringify(session)}`);
+    console.error(`\textendedHeader: ${JSON.stringify(extendedHeader)}`);
 
   });
 }
