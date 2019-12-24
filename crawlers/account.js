@@ -34,18 +34,18 @@ async function main () {
       // console.log(key + " -> " + accounts[key]);
       let sql = `SELECT accountId, accountIndex FROM account_index WHERE accountId = "${key}"`;
       let [rows, fields] = await conn.execute(sql, [2, 2]);
-      console.log(rows);
-      // if (rows.length > 0) {
-      //   if (rows[0]['accountIndex'] !== accounts[key]) {
-      //     console.log("Updating account index: " + key + " -> " + accounts[key]);
-      //     sql = `UPDATE account_index SET accountIndex = "${accounts[key]}" WHERE accountId = "${key}"`;
-      //     await conn.execute(sql, [2, 2]);
-      //   }
-      // } else {
-      //   console.log("New account index: " + key + " -> " + accounts[key]);
-      //   sql = 'INSERT INTO account_index (accountId, accountIndex) VALUES (\'' + key + '\', \'' + accounts[key] + '\');';
-      //   await conn.execute(sql, [2, 2]);
-      // }
+      // console.log(rows);
+      if (rows) {
+        if (rows[0]['accountIndex'] !== accounts[key]) {
+          console.log("Updating account index: " + key + " -> " + accounts[key]);
+          sql = `UPDATE account_index SET accountIndex = "${accounts[key]}" WHERE accountId = "${key}"`;
+          await conn.execute(sql, [2, 2]);
+        }
+      } else {
+        console.log("New account index: " + key + " -> " + accounts[key]);
+        sql = 'INSERT INTO account_index (accountId, accountIndex) VALUES (\'' + key + '\', \'' + accounts[key] + '\');';
+        await conn.execute(sql, [2, 2]);
+      }
     }
   }
 
