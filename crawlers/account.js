@@ -36,7 +36,7 @@ async function main () {
       let [rows, fields] = await conn.execute(sql, [2, 2]);
       // console.log(rows);
       if (rows) {
-        if (rows[0]['accountIndex'] !== accounts[key]) {
+        if (rows.accountIndex !== accounts[key]) {
           console.log("Updating account index: " + key + " -> " + accounts[key]);
           sql = `UPDATE account_index SET accountIndex = "${accounts[key]}" WHERE accountId = "${key}"`;
           await conn.execute(sql, [2, 2]);
