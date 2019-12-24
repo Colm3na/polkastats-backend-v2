@@ -26,7 +26,7 @@ async function main () {
   const accounts = await api.derive.accounts.indexes();
 
   // Log active accounts
-  console.log(JSON.stringify(accounts, null, 2));
+  // console.log(JSON.stringify(accounts, null, 2));
 
   // Main loop
   for (var key in accounts ) {
