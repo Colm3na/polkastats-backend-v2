@@ -42,9 +42,12 @@ async function main () {
       
       // Skip insert if events was already in database for that block
       if (rows.length === 0) {
-        console.log(`blockNumber: ${blockNumber}, index: ${index}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
-        const sqlInsert = 'INSERT INTO event (blockNumber, eventIndex, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + index + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
-        const [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+        // Don's save ExtrinsicSuccess events (3 events per block)
+        if (event.section !== "system" && event.method !== "ExtrinsicSuccess") {
+          console.log(`blockNumber: ${blockNumber}, index: ${index}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
+          const sqlInsert = 'INSERT INTO event (blockNumber, eventIndex, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + index + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
+          const [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+        }
       }
     });
   });
