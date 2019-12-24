@@ -59,6 +59,12 @@ async function main () {
     console.error(`\ttotalIssuance: ${totalIssuance}`);
     console.error(`\tsession: ${JSON.stringify(session)}`);
 
+    if (blockNumber) {
+      var sqlInsert =
+        'INSERT INTO block (block_number, block_finalized, block_author, block_hash, parent_hash, extrinsics_root, state_root, total_issuance, session_json, timestamp) VALUES (\'' + blockNumber + '\', \'' + blockFinalized + '\', \'' + extendedHeader.author + '\', \'' + blockHash + '\', \'' + parentHash + '\', \'' + extrinsicsRoot + '\', \'' + stateRoot + '\', \'' + totalIssuance + '\', \'' + JSON.stringify(session) + '\', UNIX_TIMESTAMP());';
+      let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+    }
+
   });
 }
 

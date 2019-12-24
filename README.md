@@ -125,7 +125,7 @@ Add this to your /etc/crontab file:
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/intention_bonded.js 2>&1 >/dev/null
 */5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/validator_bonded.js 2>&1 >/dev/null
 */5 *  * * *   root     /usr/local/polkastats-backend-v2/nicknames.sh 2>&1 >/dev/null
-*/5 *  * * *   root     /usr/local/polkastats-backend-v2/indexes.sh 2>&1 >/dev/null
+*/5 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/account.js 2>&1 >/dev/null
 
 # Execute every 10m
 */10 *  * * *   root     node /usr/local/polkastats-backend-v2/crawlers/keybase_identity.js 2>&1 >/dev/null
