@@ -29,7 +29,7 @@ async function main () {
     const blockNumber = header.number.toNumber();
 
     // Get block author
-    const blockAuthor = await api.query.authorship.author
+    const blockAuthor = await api.query.authorship.author();
 
     const [blockHeight, blockHeightFinalized, totalIssuance, session] = await Promise.all([
       api.derive.chain.bestNumber(),
