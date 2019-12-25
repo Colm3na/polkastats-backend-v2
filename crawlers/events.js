@@ -35,6 +35,9 @@ async function main () {
 
       // Get block number
       const blockNumber = header.number.toNumber() - 1;
+
+      // Database connection
+      const conn = await mysql.createConnection(mysqlConnParams);
       
       // Check if events was already in database for that block
       const sqlSelect = 'SELECT * FROM event WHERE blockNumber = ' + blockNumber + ';';
@@ -42,13 +45,12 @@ async function main () {
       
       // Skip insert if events was already in database for that block
       if (rows.length === 0) {
-        // Don's save ExtrinsicSuccess events (3 events per block)
-        if (event.section !== "system" && event.method !== "ExtrinsicSuccess") {
-          console.log(`blockNumber: ${blockNumber}, index: ${index}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
-          const sqlInsert = 'INSERT INTO event (blockNumber, eventIndex, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + index + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
-          const [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
-        }
+        console.log(`blockNumber: ${blockNumber}, index: ${index}, section: ${event.section}, method: ${event.method}, phase: ${phase.toString()}, documentation: ${event.meta.documentation.toString()}, data: ${JSON.stringify(event.data)}`);
+        const sqlInsert = 'INSERT INTO event (blockNumber, eventIndex, section, method, phase, data) VALUES (\'' + blockNumber + '\', \'' + index + '\', \'' + event.section + '\', \'' + event.method + '\', \'' + phase.toString() + '\', \'' + JSON.stringify(event.data) + '\');';
+        const [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
       }
+      // We connect/disconnect to MySQL in each loop to avoid problems if MySQL server is restarted while the crawler is running
+      conn.end();
     });
   });
 }

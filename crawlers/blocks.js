@@ -12,9 +12,6 @@ const {
 } = require('../backend.config');
 
 async function main () {
-
-  // Database connection
-  const conn = await mysql.createConnection(mysqlConnParams);
   
   // Initialise the provider to connect to the local polkadot node
   const provider = new WsProvider(wsProviderUrl);
@@ -50,21 +47,26 @@ async function main () {
       api.derive.session.info()
     ]);
 
-    console.error(`Best block: #${blockNumber} finalized: #${blockFinalized}`);
-    console.error(`\tauthor: ${extendedHeader.author}`);
-    console.error(`\tblockHash: ${blockHash}`);
-    console.error(`\tparentHash: ${parentHash}`);
-    console.error(`\textrinsicsRoot: ${extrinsicsRoot}`);
-    console.error(`\tstateRoot: ${stateRoot}`);
-    console.error(`\ttotalIssuance: ${totalIssuance}`);
-    console.error(`\tsession: ${JSON.stringify(session)}`);
+    console.log(`PolkaStats - Block crawler - Best block: #${blockNumber} finalized: #${blockFinalized}`);
+    // console.log(`\tauthor: ${extendedHeader.author}`);
+    // console.log(`\tblockHash: ${blockHash}`);
+    // console.log(`\tparentHash: ${parentHash}`);
+    // console.log(`\textrinsicsRoot: ${extrinsicsRoot}`);
+    // console.log(`\tstateRoot: ${stateRoot}`);
+    // console.log(`\ttotalIssuance: ${totalIssuance}`);
+    // console.log(`\tsession: ${JSON.stringify(session)}`);
 
     if (blockNumber) {
+      // Database connection
+      const conn = await mysql.createConnection(mysqlConnParams);
+      
       var sqlInsert =
         'INSERT INTO block (block_number, block_finalized, block_author, block_hash, parent_hash, extrinsics_root, state_root, total_issuance, session_json, timestamp) VALUES (\'' + blockNumber + '\', \'' + blockFinalized + '\', \'' + extendedHeader.author + '\', \'' + blockHash + '\', \'' + parentHash + '\', \'' + extrinsicsRoot + '\', \'' + stateRoot + '\', \'' + totalIssuance + '\', \'' + JSON.stringify(session) + '\', UNIX_TIMESTAMP());';
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
+      
+      // We connect/disconnect to MySQL in each loop to avoid problems if MySQL server is restarted while the crawler is running
+      conn.end();
     }
-
   });
 }
 
