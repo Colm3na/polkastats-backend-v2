@@ -31,6 +31,7 @@ async function main () {
     return currentBlockNumber;
   }
 
+  // Every 10 seconds it grabs the last current block from DB
   const getLastBlockCountdown = async (timer) => {
     console.log('Timer is', timer);
     if (timer >= 10) {
