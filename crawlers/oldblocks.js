@@ -19,42 +19,56 @@ async function main () {
   // Create API with a default connection to the local node
   const api = await ApiPromise.create({ provider });
 
-  // Subscribe to new blocks
-  const unsubscribe = await api.rpc.chain.subscribeNewHeads( async (header) => {
-    // Database connection
-    const conn = await mysql.createConnection(mysqlConnParams);
+  // Database connection
+  const conn = await mysql.createConnection(mysqlConnParams);
 
-    // Get block number
-    const currentBlockNumber = header.number.toNumber();
-
-    // while(oldBlockNumber < currentBlockNumber) {
-      console.log(`Last current block number: #${currentBlockNumber}`);
+  // Get current block number from DB
+  const getLastBlockFromDB = async () => {
+    const sqlSelect = 'SELECT block_number FROM block ORDER BY block_number DESC LIMIT 1;';
+    const [rows] = await conn.execute(sqlSelect, [2, 2]);
+    const currentBlockNumber = rows[0].block_number;
     
-      setInterval( async () => {
+    return currentBlockNumber;
+  }
 
-        oldBlockNumber++
-        console.log(`Follow up block number: #${oldBlockNumber}`);
+  const getLastBlockCountdown = async (timer) => {
+    console.log('Timer is', timer);
+    if (timer >= 10) {
+      const currentBlockNumber = await getLastBlockFromDB();
 
-        const oldBlockHash = await api.rpc.chain.getBlockHash(oldBlockNumber);
-        // It doesn't return the real block hash!
-        // console.log('\n Old block hash', oldBlockHash);
+      console.log(`Last current block number: #${currentBlockNumber}`);
+      timer = 0;
+      return { currentBlockNumber, timer }
+    } else {
+      return {timer};
+    }
+  }
 
-        const oldBlockExtendedHeader = await api.derive.chain.getHeader(oldBlockHash);
-        // This shows an error (is not receiving a correct block hash, so it makes sense)
-        // console.log('\n Old block header', oldBlockExtendedHeader);
+  let timer = 0;
 
-    }, 1000)
+  // while(oldBlockNumber < currentBlockNumber) {
+  setInterval(async () => {
+    oldBlockNumber++
+    console.log(`Follow up block number: #${oldBlockNumber}`);
 
-    const [blockHeight, blockHeightFinalized, totalIssuance, session] = await Promise.all([
-      api.derive.session.info()
-    ]);
-    // This also shows an error most of the time, I really don't know why
-    console.log('\n Old block session info', blockHeight, session);
+    timer++
+
+    const countdownRes = await getLastBlockCountdown(timer);
+    timer = countdownRes.timer;
+
+    const oldBlockHash = await api.rpc.chain.getBlockHash(oldBlockNumber);
+    // It doesn't return the real block hash!
+    // console.log('\n Old block hash', oldBlockHash);
+
+    const oldBlockExtendedHeader = await api.derive.chain.getHeader(oldBlockHash);
+    // This shows an error (is not receiving a correct block hash, so it makes sense)
+    // console.log('\n Old block header', oldBlockExtendedHeader);
 
     // We connect/disconnect to MySQL in each loop to avoid problems if MySQL server is restarted while the crawler is running
     conn.end();
-  })
+  }, 1000);
 }
+// }
 
 main().catch((error) => {
     console.error(error);
