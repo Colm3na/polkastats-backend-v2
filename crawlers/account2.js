@@ -38,7 +38,7 @@ async function main () {
 
     accountsInfo[accountId] = {
       accountId,
-      identity: accountInfo.identity.display ? accountInfo.identity : '',
+      identity: accountInfo["identity"].display ? accountInfo["identity"] : '',
       nickname: accountInfo.nickname ? accountInfo.nickname : '',
       accountIndex
     }
