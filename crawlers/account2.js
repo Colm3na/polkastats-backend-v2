@@ -33,11 +33,13 @@ async function main () {
     let accountInfo = await api.derive.accounts.info(accountId);
     let identity = accountInfo.identity.display ? JSON.stringify(accountInfo.identity) : '';
     let nickname = accountInfo.nickname ? accountInfo.nickname : '';
+    let balances = await api.derive.balances.all(accountId);
     accountsInfo[accountId] = {
       accountId,
+      accountIndex,
       identity,
       nickname,
-      accountIndex
+      balances
     }
     console.log(`Processing account ${accountId}`);
     // console.log(JSON.stringify(accountsInfo[accountId], null, 2));
@@ -53,12 +55,12 @@ async function main () {
       let sql = `SELECT accountId FROM account WHERE accountId = "${key}"`;
       let [rows, fields] = await conn.execute(sql, [2, 2]);
       if (rows.length > 0) {
-        console.log(`Updating account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity}`);
-        sql = `UPDATE account SET accountIndex = '${accountsInfo[key].accountIndex}', nickname = '${accountsInfo[key].nickname}', identity = '${accountsInfo[key].identity}' WHERE accountId = '${key}'`;
+        console.log(`Updating account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity} balances: ${JSON.stringify(accountsInfo[key].balances)}`);
+        sql = `UPDATE account SET accountIndex = '${accountsInfo[key].accountIndex}', nickname = '${accountsInfo[key].nickname}', identity = '${accountsInfo[key].identity}', balances = '${JSON.stringify(accountsInfo[key].balances)}' WHERE accountId = '${key}'`;
         await conn.execute(sql, [2, 2]);
       } else {
-        console.log(`New account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity}`);
-        sql = `INSERT INTO account (accountId, accountIndex, nickname, identity) VALUES ('${key}', '${accountsInfo[key].accountIndex}', '${accountsInfo[key].nickname}', '${accountsInfo[key].identity}');`;
+        console.log(`New account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity} balances: ${JSON.stringify(accountsInfo[key].balances)}`);
+        sql = `INSERT INTO account (accountId, accountIndex, nickname, identity, balances) VALUES ('${key}', '${accountsInfo[key].accountIndex}', '${accountsInfo[key].nickname}', '${accountsInfo[key].identity}', '${JSON.stringify(accountsInfo[key].balances)}');`;
         await conn.execute(sql, [2, 2]);
       }
     }
