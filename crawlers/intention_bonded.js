@@ -36,7 +36,7 @@ async function main () {
 
     // Map staking stats to validators
     const validatorStaking = await Promise.all(
-      validators.map(authorityId => api.derive.staking.info(authorityId))
+      validators.map(authorityId => api.derive.staking.account(authorityId))
     );
 
     for (var i = 0; i < validatorStaking.length; i++) {

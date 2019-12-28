@@ -46,7 +46,7 @@ async function main () {
   // Map validator authorityId to staking info object
   //
   const validatorStaking = await Promise.all(
-    validators.map(authorityId => api.derive.staking.info(authorityId))
+    validators.map(authorityId => api.derive.staking.account(authorityId))
   );
 
   if (validatorStaking) {
