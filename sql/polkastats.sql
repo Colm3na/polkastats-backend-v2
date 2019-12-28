@@ -1,5 +1,9 @@
 CREATE DATABASE polkastats;
 
+SET NAMES utf8mb4; 
+
+ALTER DATABASE polkastats CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 GRANT ALL PRIVILEGES ON polkastats.* to polkastats@localhost identified by 'polkastats';
 
 USE polkastats;
@@ -141,4 +145,4 @@ CREATE TABLE account (
    nickname VARCHAR(100) NOT NULL,
    identity VARCHAR(300) NOT NULL,
    PRIMARY KEY ( accountId )  
-);
+) DEFAULT CHARSET=utf8mb4;
