@@ -139,6 +139,6 @@ CREATE TABLE account (
    accountId VARCHAR(47) NOT NULL,
    accountIndex VARCHAR(47) NOT NULL,
    nickname VARCHAR(100) NOT NULL,
-   
+   identity VARCHAR(300) NOT NULL,
    PRIMARY KEY ( accountId )  
 );

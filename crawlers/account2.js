@@ -31,22 +31,18 @@ async function main () {
     let accountId = key;
     let accountIndex = accounts[key]
     let accountInfo = await api.derive.accounts.info(accountId);
-    
-    console.log(accountId);
-    console.log(accountInfo);
-
-
     accountsInfo[accountId] = {
       accountId,
-      identity: accountInfo["identity"].display ? accountInfo["identity"] : '',
+      identity: accountInfo.identity.display ? accountInfo.identity : '',
       nickname: accountInfo.nickname ? accountInfo.nickname : '',
       accountIndex
     }
-    console.log(JSON.stringify(accountsInfo[accountId], null, 2));
+    console.log(`Processing account ${accountId}`);
+    // console.log(JSON.stringify(accountsInfo[accountId], null, 2));
   }
 
   // Log active accounts
-  console.log(JSON.stringify(accountsInfo, null, 2));
+  // console.log(JSON.stringify(accountsInfo, null, 2));
 
   // Main loop
   for (var key in accountsInfo ) {
