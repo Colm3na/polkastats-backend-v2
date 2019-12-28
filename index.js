@@ -138,6 +138,17 @@ app.get('/indexes', async function (req, res) {
   });
 });
 
+/* ACCOUNTS */
+
+// Get all active accounts indexes
+app.get('/accounts', async function (req, res) {
+  // Get last state
+  con.query('SELECT accountId, accountIndex, nickname, identity, balances FROM account WHERE 1;', function(err, rows, fields) {
+    if (err) throw err;  
+    res.json(rows);
+  });
+});
+
 
 /* VALIDATOR GRAPHS */
 
