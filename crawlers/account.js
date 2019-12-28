@@ -25,24 +25,42 @@ async function main () {
   // Fetch active accounts
   const accounts = await api.derive.accounts.indexes();
 
+  let accountsInfo = [];
+
+  for (var key in accounts ) {
+    let accountId = key;
+    let accountIndex = accounts[key]
+    let accountInfo = await api.derive.accounts.info(accountId);
+    let identity = accountInfo.identity.display ? JSON.stringify(accountInfo.identity) : '';
+    let nickname = accountInfo.nickname ? accountInfo.nickname : '';
+    let balances = await api.derive.balances.all(accountId);
+    accountsInfo[accountId] = {
+      accountId,
+      accountIndex,
+      identity,
+      nickname,
+      balances
+    }
+    console.log(`Processing account ${accountId}`);
+    // console.log(JSON.stringify(accountsInfo[accountId], null, 2));
+  }
+
   // Log active accounts
-  // console.log(JSON.stringify(accounts, null, 2));
+  // console.log(JSON.stringify(accountsInfo, null, 2));
 
   // Main loop
-  for (var key in accounts ) {
-    if (accounts.hasOwnProperty(key)) {
+  for (var key in accountsInfo ) {
+    if (accountsInfo.hasOwnProperty(key)) {
       // console.log(key + " -> " + accounts[key]);
-      let sql = `SELECT accountId, accountIndex FROM account_index WHERE accountId = "${key}"`;
+      let sql = `SELECT accountId FROM account WHERE accountId = "${key}"`;
       let [rows, fields] = await conn.execute(sql, [2, 2]);
       if (rows.length > 0) {
-        if (rows[0].accountIndex != accounts[key]) {
-          console.log("Updating account index: " + key + " -> " + accounts[key]);
-          sql = `UPDATE account_index SET accountIndex = "${accounts[key]}" WHERE accountId = "${key}"`;
-          await conn.execute(sql, [2, 2]);
-        }
+        console.log(`Updating account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity} balances: ${JSON.stringify(accountsInfo[key].balances)}`);
+        sql = `UPDATE account SET accountIndex = '${accountsInfo[key].accountIndex}', nickname = '${accountsInfo[key].nickname}', identity = '${accountsInfo[key].identity}', balances = '${JSON.stringify(accountsInfo[key].balances)}' WHERE accountId = '${key}'`;
+        await conn.execute(sql, [2, 2]);
       } else {
-        console.log("New account index: " + key + " -> " + accounts[key]);
-        sql = 'INSERT INTO account_index (accountId, accountIndex) VALUES (\'' + key + '\', \'' + accounts[key] + '\');';
+        console.log(`New account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity} balances: ${JSON.stringify(accountsInfo[key].balances)}`);
+        sql = `INSERT INTO account (accountId, accountIndex, nickname, identity, balances) VALUES ('${key}', '${accountsInfo[key].accountIndex}', '${accountsInfo[key].nickname}', '${accountsInfo[key].identity}', '${JSON.stringify(accountsInfo[key].balances)}');`;
         await conn.execute(sql, [2, 2]);
       }
     }
