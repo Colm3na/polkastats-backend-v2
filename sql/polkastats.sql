@@ -144,6 +144,6 @@ CREATE TABLE account (
    accountIndex VARCHAR(47) NOT NULL,
    nickname VARCHAR(100) NOT NULL,
    identity VARCHAR(300) NOT NULL,
-   balances VARCHAR(300) NOT NULL,
+   balances MEDIUMTEXT NOT NULL,
    PRIMARY KEY ( accountId )  
 ) DEFAULT CHARSET=utf8mb4;
