@@ -31,6 +31,11 @@ async function main () {
     let accountId = key;
     let accountIndex = accounts[key]
     let accountInfo = await api.derive.accounts.info(accountId);
+    
+    console.log(accountId);
+    console.log(accountInfo);
+
+
     accountsInfo[accountId] = {
       accountId,
       identity: accountInfo.identity.display ? accountInfo.identity : '',
