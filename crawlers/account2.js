@@ -52,11 +52,11 @@ async function main () {
       let [rows, fields] = await conn.execute(sql, [2, 2]);
       if (rows.length > 0) {
         console.log(`Updating account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity}`);
-        sql = `UPDATE account SET accountIndex = "${accountsInfo[key].accountIndex}", nickname = "${accountsInfo[key].nickname}", identity = "${JSON.stringify(accountsInfo[key].identity)}" WHERE accountId = "${key}"`;
+        sql = `UPDATE account SET accountIndex = '${accountsInfo[key].accountIndex}', nickname = '${accountsInfo[key].nickname}', identity = '${JSON.stringify(accountsInfo[key].identity)}' WHERE accountId = '${key}'`;
         await conn.execute(sql, [2, 2]);
       } else {
         console.log(`New account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity}`);
-        sql = `INSERT INTO account (accountId, accountIndex, nickname, identity) VALUES ("${key}", "${accountsInfo[key].accountIndex}", "${accountsInfo[key].nickname}", "${JSON.stringify(accountsInfo[key].identity)}");`;
+        sql = `INSERT INTO account (accountId, accountIndex, nickname, identity) VALUES ('${key}', '${accountsInfo[key].accountIndex}', '${accountsInfo[key].nickname}', '${JSON.stringify(accountsInfo[key].identity)}');`;
         await conn.execute(sql, [2, 2]);
       }
     }
