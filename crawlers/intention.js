@@ -34,7 +34,7 @@ async function main () {
   //
   // Outputs JSON
   //
-  console.log(`bestNumber:`, bestNumber);
+  console.log(`block_height: ${bestNumber}`);
   
   //
   // Fetch intention validators
@@ -63,7 +63,6 @@ async function main () {
   }
 
   if (validatorStaking) {
-    console.log(`block_height: ${bestNumber}`);
     console.log(`intentions: ${JSON.stringify(validatorStaking, null, 2)}`);
     var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
