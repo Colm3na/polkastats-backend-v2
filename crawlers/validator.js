@@ -69,6 +69,16 @@ async function main () {
     }
   }
 
+
+  //
+  // Add hex representation of sessionId[] and nextSessionId[]
+  //
+  for(let i = 0; i < validatorStaking.length; i++) {
+    let validator = validatorStaking[i];
+    validator.sessionIdHex = validator.sessionIds.toHex();
+    validator.nextSessionIdHex = validator.nextSessionIds.toHex();
+  }
+
   if (validatorStaking) {
     console.log(`validators:`, JSON.stringify(validatorStaking, null, 2));
     var sqlInsert = 'INSERT INTO validator (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
