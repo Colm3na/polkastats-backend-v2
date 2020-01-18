@@ -49,6 +49,19 @@ async function main () {
     validators.map(authorityId => api.derive.staking.account(authorityId))
   );
 
+  //
+  // Add hex representation of sessionId[] and nextSessionId[]
+  //
+  for(let i = 0; i < validatorStaking.length; i++) {
+    let validator = validatorStaking[i];
+    if (validator.sessionIdHex) {
+      validator.sessionIdHex = validator.sessionIds.toHex();
+    }
+    if (validator.nextSessionIdHex) {
+      validator.nextSessionIdHex = validator.nextSessionIds.toHex();
+    }
+  }
+
   if (validatorStaking) {
     console.log(`block_height: ${bestNumber} intentions: ${JSON.stringify(validatorStaking)}`);
     var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';

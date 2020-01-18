@@ -69,7 +69,6 @@ async function main () {
     }
   }
 
-
   //
   // Add hex representation of sessionId[] and nextSessionId[]
   //
