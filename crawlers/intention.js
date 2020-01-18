@@ -54,10 +54,10 @@ async function main () {
   //
   for(let i = 0; i < validatorStaking.length; i++) {
     let validator = validatorStaking[i];
-    if (validator.sessionIds) {
+    if (validator.sessionIds.length > 0) {
       validator.sessionIdHex = validator.sessionIds.toHex();
     }
-    if (validator.nextSessionIds) {
+    if (validator.nextSessionIds.length > 0) {
       validator.nextSessionIdHex = validator.nextSessionIds.toHex();
     }
   }
