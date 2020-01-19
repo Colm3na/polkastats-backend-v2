@@ -1,6 +1,9 @@
 //
 // Return identity of all validator, intention and nominator accounts
 //
+// This way we serve only the identities we need to display in all 
+// places except in active accounts, where we need the full list 
+//
 
 // @ts-check
 // Required imports
@@ -85,7 +88,7 @@ async function main () {
   // Main loop
   for (var key in stakingAccountsInfo ) {
     if (stakingAccountsInfo.hasOwnProperty(key)) {
-      console.log(key + " -> " + stakingAccountsInfo[key]);
+      // console.log(key + " -> " + stakingAccountsInfo[key]);
       let sql = `SELECT accountId FROM account_identity WHERE accountId = "${key}"`;
       let [rows, fields] = await conn.execute(sql, [2, 2]);
       if (rows.length > 0) {

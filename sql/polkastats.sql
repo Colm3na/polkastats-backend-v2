@@ -150,6 +150,6 @@ CREATE TABLE account (
 CREATE TABLE account_identity (  
    id INT NOT NULL AUTO_INCREMENT,
    accountId VARCHAR(50) NOT NULL,
-   identity VARCHAR(100) NOT NULL,
+   identity VARCHAR(300) NOT NULL,
    PRIMARY KEY ( id )  
 ) DEFAULT CHARSET=utf8mb4;
