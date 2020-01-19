@@ -74,12 +74,30 @@ async function main () {
   let stakingAccountsInfo = []
   accountInfo.forEach(account => {
     if (account.identity.display) {
-      stakingAccountsInfo.push(account);
+      stakingAccountsInfo[account.accountId.toString()] = account;
     }
   });
 
   console.log(`stakingAccountsInfo:`, JSON.stringify(stakingAccountsInfo, null, 2));
   console.log(`stakingAccountsInfo num:`, stakingAccountsInfo.length);
+
+  // Main loop
+  for (var key in stakingAccountsInfo ) {
+    if (stakingAccountsInfo.hasOwnProperty(key)) {
+      console.log(key + " -> " + accounts[key]);
+      // let sql = `SELECT accountId FROM account WHERE accountId = "${key}"`;
+      // let [rows, fields] = await conn.execute(sql, [2, 2]);
+      // if (rows.length > 0) {
+      //   console.log(`Updating account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity} balances: ${JSON.stringify(accountsInfo[key].balances)}`);
+      //   sql = `UPDATE account SET accountIndex = '${accountsInfo[key].accountIndex}', nickname = '${accountsInfo[key].nickname}', identity = '${accountsInfo[key].identity}', balances = '${JSON.stringify(accountsInfo[key].balances)}' WHERE accountId = '${key}'`;
+      //   await conn.execute(sql, [2, 2]);
+      // } else {
+      //   console.log(`New account: accountId: ${key} accountIndex: ${accountsInfo[key].accountIndex} nickname: ${accountsInfo[key].nickname} identity: ${accountsInfo[key].identity} balances: ${JSON.stringify(accountsInfo[key].balances)}`);
+      //   sql = `INSERT INTO account (accountId, accountIndex, nickname, identity, balances) VALUES ('${key}', '${accountsInfo[key].accountIndex}', '${accountsInfo[key].nickname}', '${accountsInfo[key].identity}', '${JSON.stringify(accountsInfo[key].balances)}');`;
+      //   await conn.execute(sql, [2, 2]);
+      // }
+    }
+  }
 
   conn.end();
 

@@ -138,7 +138,6 @@ CREATE TABLE block (
    PRIMARY KEY ( block_number )  
 );
 
-
 CREATE TABLE account (  
    accountId VARCHAR(47) NOT NULL,
    accountIndex VARCHAR(47) NOT NULL,
@@ -146,4 +145,11 @@ CREATE TABLE account (
    identity VARCHAR(300) NOT NULL,
    balances MEDIUMTEXT NOT NULL,
    PRIMARY KEY ( accountId )  
+) DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE account_identity (  
+   id INT NOT NULL AUTO_INCREMENT,
+   accountId VARCHAR(50) NOT NULL,
+   identity VARCHAR(100) NOT NULL,
+   PRIMARY KEY ( id )  
 ) DEFAULT CHARSET=utf8mb4;
