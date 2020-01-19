@@ -152,7 +152,7 @@ app.get('/accounts', async function (req, res) {
 /* IDENTITIES FOR ALL ACCOUNTS INVOLVED IN STAKING (VALIDATORS, INTENTIONS AND NOMINATORS) */
 app.get('/staking_identities', async function (req, res) {
   // Get last state
-  con.query('SELECT accountId, identities FROM account_identity WHERE 1 ORDER BY id DESC;', function(err, rows, fields) {
+  con.query('SELECT accountId, identity FROM account_identity WHERE 1 ORDER BY id DESC;', function(err, rows, fields) {
     if (err) throw err;  
     res.json(rows);
   });
