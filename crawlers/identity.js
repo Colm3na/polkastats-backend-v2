@@ -78,13 +78,13 @@ async function main () {
     }
   });
 
-  console.log(`stakingAccountsInfo:`, JSON.stringify(stakingAccountsInfo, null, 2));
-  console.log(`stakingAccountsInfo num:`, stakingAccountsInfo.length);
+  // console.log(`stakingAccountsInfo:`, JSON.stringify(stakingAccountsInfo, null, 2));
+  // console.log(`stakingAccountsInfo num:`, stakingAccountsInfo.length);
 
   // Main loop
   for (var key in stakingAccountsInfo ) {
     if (stakingAccountsInfo.hasOwnProperty(key)) {
-      console.log(key + " -> " + accounts[key]);
+      console.log(key + " -> " + stakingAccountsInfo[key]);
       // let sql = `SELECT accountId FROM account WHERE accountId = "${key}"`;
       // let [rows, fields] = await conn.execute(sql, [2, 2]);
       // if (rows.length > 0) {
