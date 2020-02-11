@@ -48,6 +48,15 @@ async function main () {
   );
 
   //
+  // Add hex representation of sessionId[] and nextSessionId[]
+  //
+  for(let i = 0; i < validatorStaking.length; i++) {
+    let validator = validatorStaking[i];
+    validator.sessionIdHex = validator.sessionIds.toHex() || ``;
+    validator.nextSessionIdHex = validator.nextSessionIds.toHex() || ``;
+  }
+
+  //
   // Add imOnline property to validator object
   //
   validatorStaking.forEach(function (validator) {
@@ -69,15 +78,6 @@ async function main () {
     if (currentEraPointsEarned.individual[currentElected.indexOf(validator.accountId)]) {
       validator.currentEraPointsEarned = currentEraPointsEarned.individual[currentElected.indexOf(validator.accountId)];
     }
-  }
-
-  //
-  // Add hex representation of sessionId[] and nextSessionId[]
-  //
-  for(let i = 0; i < validatorStaking.length; i++) {
-    let validator = validatorStaking[i];
-    validator.sessionIdHex = validator.sessionIds.toHex() || ``;
-    validator.nextSessionIdHex = validator.nextSessionIds.toHex() || ``;
   }
 
   if (validatorStaking) {
