@@ -49,8 +49,8 @@ async function main () {
   // Add hex representation of sessionId[] and nextSessionId[]
   //
   validatorStaking.forEach(validator => {
-    validator.sessionIds = validator.sessionIds ? validator.sessionIds.toHex() : ``;
-    validator.nextSessionIds = validator.nextSessionIds ? validator.nextSessionIds.toHex() : ``;
+    validator.sessionIds = validator.sessionIds.length !== 0 ? validator.sessionIds.toHex() : ``;
+    validator.nextSessionIds = validator.nextSessionIds.length !== 0 ? validator.nextSessionIds.toHex() : ``;
   })
 
   //
