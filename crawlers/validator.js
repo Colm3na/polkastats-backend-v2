@@ -48,11 +48,10 @@ async function main () {
   //
   // Add hex representation of sessionId[] and nextSessionId[]
   //
-  for(let i = 0; i < validatorStaking.length; i++) {
-    const validator = validatorStaking[i];
+  validatorStaking.forEach(validator => {
     validator.sessionIds = validator.sessionIds ? validator.sessionIds.toHex() : ``;
     validator.nextSessionIds = validator.nextSessionIds ? validator.nextSessionIds.toHex() : ``;
-  }
+  })
 
   //
   // Add imOnline property to validator object
