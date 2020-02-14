@@ -49,9 +49,14 @@ async function main () {
   // Add hex representation of sessionId[] and nextSessionId[]
   //
   for(let i = 0; i < validatorStaking.length; i++) {
-    validatorStaking[i].sessionIdHex = validatorStaking[i].sessionIds.toHex() || ``;
-    validatorStaking[i].nextSessionIdHex = validatorStaking[i].nextSessionIds.toHex() || ``;
+    console.log(validatorStaking[i].sessionIds.toHex())
+    
   }
+
+  // validatorStaking.forEach( validator => {
+  //   validator.sessionIdHex = validator.sessionIds.toHex() || ``;
+  //   validator.nextSessionIdHex = validator.nextSessionIds.toHex() || ``;
+  // });
 
   //
   // Add imOnline property to validator object
