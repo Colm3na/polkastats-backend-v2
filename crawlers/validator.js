@@ -49,7 +49,6 @@ async function main () {
   // Add hex representation of sessionId[] and nextSessionId[]
   //
   for(let i = 0; i < validatorStaking.length; i++) {
-    let validator = ;
     validator.sessionIdHex = validatorStaking[i].sessionIds.toHex() || ``;
     validator.nextSessionIdHex = validatorStaking[i].nextSessionIds.toHex() || ``;
   }
