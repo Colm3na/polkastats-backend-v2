@@ -2,8 +2,6 @@
 // Required imports
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 
-
-
 // Promise MySQL lib
 const mysql = require('mysql2/promise');
 
@@ -51,9 +49,9 @@ async function main () {
   // Add hex representation of sessionId[] and nextSessionId[]
   //
   for(let i = 0; i < validatorStaking.length; i++) {
-    let validator = validatorStaking[i];
-    validator.sessionIdHex = validator.sessionIds.toHex() || ``;
-    validator.nextSessionIdHex = validator.nextSessionIds.toHex() || ``;
+    let validator = ;
+    validator.sessionIdHex = validatorStaking[i].sessionIds.toHex() || ``;
+    validator.nextSessionIdHex = validatorStaking[i].nextSessionIds.toHex() || ``;
   }
 
   //
