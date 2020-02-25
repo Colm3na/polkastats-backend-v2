@@ -15,7 +15,7 @@ module.exports = {
     charset : "utf8mb4"
   },
   // SSL certificate files
-  privateKeyFile: '/etc/letsencrypt/live/polkastats.io/privkey.pem',
-  certificateFile: '/etc/letsencrypt/live/polkastats.io/cert.pem',
-  caFile: '/etc/letsencrypt/live/polkastats.io/chain.pem'
+  privateKeyFile: '/usr/local/polkastats-backend-v2/ca.key',
+  certificateFile: '/usr/local/polkastats-backend-v2/ca.pem',
+  caFile: '/usr/local/polkastats-backend-v2/ca.key'
 }
