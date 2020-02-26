@@ -1,6 +1,6 @@
 // @ts-check
 // Required imports
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const express = require('express');
 const app = express();
@@ -9,24 +9,11 @@ const mysql = require('mysql');
 const {
   backendPort,
   enableCORS,
-  mysqlConnParams,
-  privateKeyFile,
-  certificateFile,
-  caFile
+  mysqlConnParams
 } = require('./backend.config')
 
 // MySQL database connection
 const con = mysql.createConnection(mysqlConnParams);
-
-// Configure SSL certificate files
-const privateKey = fs.readFileSync(privateKeyFile, 'utf8');
-const certificate = fs.readFileSync(certificateFile, 'utf8');
-const ca = fs.readFileSync(caFile, 'utf8');
-const credentials = {
-	key: privateKey,
-	cert: certificate,
-	ca: ca
-};
 
 // CORS
 if (enableCORS) {
@@ -211,10 +198,10 @@ app.get('/intention/graph/monthly/:accountId', function (req, res, next) {
 });
 
 
-// Start https server
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(backendPort, () => {
-	console.log(`PolkaStats v2 Backend HTTPS RPC running on port ${backendPort}`);
+// Start http server
+const httpServer = http.createServer(app);
+httpServer.listen(backendPort, () => {
+	console.log(`PolkaStats v2 Backend HTTP RPC running on port ${backendPort}`);
 });
 
 
