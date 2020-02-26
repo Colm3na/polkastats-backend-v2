@@ -15,16 +15,6 @@ const {
 // MySQL database connection
 const con = mysql.createConnection(mysqlConnParams);
 
-// Configure SSL certificate files
-// const privateKey = fs.readFileSync(privateKeyFile, 'utf8');
-// const certificate = fs.readFileSync(certificateFile, 'utf8');
-// const ca = fs.readFileSync(caFile, 'utf8');
-// const credentials = {
-// 	key: privateKey,
-// 	cert: certificate,
-// 	ca: ca
-// };
-
 // CORS
 if (enableCORS) {
   app.use((req, res, next) => {
