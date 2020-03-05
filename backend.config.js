@@ -2,7 +2,7 @@ module.exports = {
   // Enable CORS
   enableCORS: true,
   // Backend port
-  backendPort: 8443,
+  backendPort: 8000,
   // Local Polkadot Kusama node
   wsProviderUrl: 'ws://127.0.0.1:9944',
   // MySQL database connection params
