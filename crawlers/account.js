@@ -23,7 +23,8 @@ async function main () {
   const api = await ApiPromise.create({ provider });
   
   // Fetch active accounts
-  const accounts = await api.derive.accounts.indexes();
+  const accountKeys = await api.query.system.account.keys();
+  const accounts = accountKeys.map(key => key.args[0].toHuman());
 
   let accountsInfo = [];
 
