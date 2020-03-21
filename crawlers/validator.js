@@ -29,11 +29,10 @@ async function main () {
   //
   // Get best block number, active validators, imOnline data, current elected and current era points earned
   //
-  const [bestNumber, validators, imOnline, currentElected, currentEraPointsEarned] = await Promise.all([
+  const [bestNumber, validators, imOnline, currentEraPointsEarned] = await Promise.all([
     api.derive.chain.bestNumber(),
     api.query.session.validators(),
     api.derive.imOnline.receivedHeartbeats(),
-    api.query.staking.currentElected(),
     api.query.staking.currentEraPointsEarned()
   ]);
   
@@ -67,11 +66,7 @@ async function main () {
   //
   for(let i = 0; i < validatorStaking.length; i++) {
     let validator = validatorStaking[i];
-    if (Number.isInteger(currentElected.indexOf(validator.accountId))) {
-      validator.currentElected = true;
-    } else {
-      validator.currentElected = false;
-    }
+    validator.currentElected = true;
     if (currentEraPointsEarned.individual[currentElected.indexOf(validator.accountId)]) {
       validator.currentEraPointsEarned = currentEraPointsEarned.individual[currentElected.indexOf(validator.accountId)];
     }
