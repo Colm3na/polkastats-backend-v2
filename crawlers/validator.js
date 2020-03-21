@@ -26,6 +26,10 @@ async function main () {
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
 
+  let activeEra = await api.query.staking.activeEra();
+  activeEra = JSON.parse(JSON.stringify(activeEra));
+  const currentEraIndex = activeEra.index;
+
   //
   // Get best block number, active validators, imOnline data, current elected and current era points earned
   //
@@ -33,7 +37,7 @@ async function main () {
     api.derive.chain.bestNumber(),
     api.query.session.validators(),
     api.derive.imOnline.receivedHeartbeats(),
-    api.query.staking.currentEraPointsEarned()
+    api.query.staking.erasRewardPoints(currentEraIndex)
   ]);
   
 
