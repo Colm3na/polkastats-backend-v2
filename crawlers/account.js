@@ -26,14 +26,14 @@ async function main () {
   const accountKeys = await api.query.system.account.keys();
   const accounts = accountKeys.map(key => key.args[0].toHuman());
 
-  accounts.forEach(async accountId => {
+  for(let i = 0; i < accounts.length; i++) {
+    let accountId = accounts[i];
+    console.log(`Processing account ${accountId}`);
 
     let accountInfo = await api.derive.accounts.info(accountId);
     let identity = accountInfo.identity.display ? JSON.stringify(accountInfo.identity) : '';
     let balances = await api.derive.balances.all(accountId);
     
-    console.log(`Processing account ${accountId}`);
-
     let sql = `SELECT accountId FROM account WHERE accountId = "${accountId}"`;
     let [rows, fields] = await conn.execute(sql, [2, 2]);
     if (rows.length > 0) {
@@ -46,7 +46,7 @@ async function main () {
       await conn.execute(sql, [2, 2]);
     }
     
-  });
+  }
 
   conn.end();
 }
