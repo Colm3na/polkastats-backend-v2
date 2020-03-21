@@ -33,36 +33,34 @@ async function main () {
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
 
-  //
-  // Get validators
-  //
-  const validators = await api.query.session.validators();
+  // Fetch all stash addresses for current session (including validators and intentions)
+  const allStashAddresses = await api.derive.staking.stashes();
 
-  //
-  // Get intentions
-  //
-  const stakingValidators = await api.query.staking.validators();
-  const intentions = stakingValidators[0];
+  // Fetch active validator addresses for current session.
+  const validatorAddresses = await api.query.session.validators();
+ 
+  // Fetch intention addresses for current session.
+  const intentionAddresses = allStashAddresses.filter(address => !validatorAddresses.includes(address));
 
   //
   // Get nominators
   //
   const validatorStaking = await Promise.all(
-    validators.map(authorityId => api.derive.staking.account(authorityId))
+    validatorAddresses.map(authorityId => api.derive.staking.account(authorityId))
   );
 
   let nominators = [];
   for(let i = 0; i < validatorStaking.length; i++) {
     let validator = validatorStaking[i];
-    if (validator.stakers.others.length > 0) {
-      for (let j = 0; j < validator.stakers.others.length; j++) {
-        let nominator = validator.stakers.others[j];
+    if (validator.exposure.others.length > 0) {
+      for (let j = 0; j < validator.exposure.others.length; j++) {
+        let nominator = validator.exposure.others[j];
         nominators.push(nominator.who)
       }
     }
   }
 
-  let accounts = nominators.concat(validators, intentions);
+  let accounts = nominators.concat(validatorAddresses, intentionAddresses);
   
   // console.log(`accounts:`, JSON.stringify(accounts, null, 2));
 
