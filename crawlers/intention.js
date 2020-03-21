@@ -42,18 +42,27 @@ async function main () {
   const stakingValidators = await api.query.staking.validators();
   const validators = stakingValidators[0];
 
+  // Fetch all stash addresses for current session (including validators and intentions)
+  const allStashAddresses = await api.derive.staking.stashes();
+
+  // Fetch active validator addresses for current session.
+  const validatorAddresses = await api.query.session.validators();
+
+  // Fetch intention addresses for current session.
+  const intentionAddresses = allStashAddresses.filter(address => !validatorAddresses.includes(address));
+
   //
   // Map validator authorityId to staking info object
   //
-  const validatorStaking = await Promise.all(
-    validators.map(authorityId => api.derive.staking.account(authorityId))
+  const intentionStaking = await Promise.all(
+    intentionAddresses.map(authorityId => api.derive.staking.account(authorityId))
   );
 
   //
   // Add hex representation of sessionId[] and nextSessionId[]
   //
-  for(let i = 0; i < validatorStaking.length; i++) {
-    let validator = validatorStaking[i];
+  for(let i = 0; i < intentionStaking.length; i++) {
+    let validator = intentionStaking[i];
     if (validator.sessionIds.length > 0) {
       validator.sessionIdHex = validator.sessionIds.toHex();
     }
@@ -62,9 +71,9 @@ async function main () {
     }
   }
 
-  if (validatorStaking) {
-    console.log(`intentions: ${JSON.stringify(validatorStaking, null, 2)}`);
-    var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(validatorStaking) + '\');';
+  if (intentionStaking) {
+    console.log(`intentions: ${JSON.stringify(intentionStaking, null, 2)}`);
+    var sqlInsert = 'INSERT INTO validator_intention (block_height, timestamp, json) VALUES (\'' + bestNumber + '\', UNIX_TIMESTAMP(), \'' + JSON.stringify(intentionStaking) + '\');';
     let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
   }
 
