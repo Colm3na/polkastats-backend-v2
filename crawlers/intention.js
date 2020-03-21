@@ -35,12 +35,6 @@ async function main () {
   // Outputs JSON
   //
   console.log(`block_height: ${bestNumber}`);
-  
-  //
-  // Fetch intention validators
-  //
-  const stakingValidators = await api.query.staking.validators();
-  const validators = stakingValidators[0];
 
   // Fetch all stash addresses for current session (including validators and intentions)
   const allStashAddresses = await api.derive.staking.stashes();
