@@ -71,8 +71,8 @@ async function main () {
   for(let i = 0; i < validatorStaking.length; i++) {
     let validator = validatorStaking[i];
     validator.currentElected = true;
-    if (currentEraPointsEarned.individual[currentElected.indexOf(validator.accountId)]) {
-      validator.currentEraPointsEarned = currentEraPointsEarned.individual[currentElected.indexOf(validator.accountId)];
+    if (currentEraPointsEarned.individual[validator.accountId.toHuman()]) {
+      validator.currentEraPointsEarned = currentEraPointsEarned.individual[validator.accountId.toHuman()];
     }
   }
 
