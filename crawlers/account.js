@@ -26,7 +26,7 @@ async function main () {
   const accountKeys = await api.query.system.account.keys();
   const accounts = accountKeys.map(key => key.args[0].toHuman());
 
-  accounts.array.forEach(async accountId => {
+  accounts.forEach(async accountId => {
 
     let accountInfo = await api.derive.accounts.info(accountId);
     let identity = accountInfo.identity.display ? JSON.stringify(accountInfo.identity) : '';
