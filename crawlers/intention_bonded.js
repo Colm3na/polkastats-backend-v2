@@ -26,22 +26,25 @@ async function main () {
   // Create the API and wait until ready
   const api = await ApiPromise.create({ provider });
   
-  //
-  // Fetch intention validators
-  //
-  const stakingValidators = await api.query.staking.validators();
-  const validators = stakingValidators[0];
+  // Fetch all stash addresses for current session (including validators and intentions)
+  const allStashAddresses = await api.derive.staking.stashes();
 
-  if (validators && validators.length > 0) {
+  // Fetch active validator addresses for current session.
+  const validatorAddresses = await api.query.session.validators();
+
+  // Fetch intention addresses for current session.
+  const intentionAddresses = allStashAddresses.filter(address => !validatorAddresses.includes(address));
+
+  if (intentionAddresses && intentionAddresses.length > 0) {
 
     // Map staking stats to validators
-    const validatorStaking = await Promise.all(
-      validators.map(authorityId => api.derive.staking.account(authorityId))
+    const intentionStaking = await Promise.all(
+      intentionAddresses.map(authorityId => api.derive.staking.account(authorityId))
     );
 
-    for (var i = 0; i < validatorStaking.length; i++) {
-      //console.log(validatorStaking[i]);
-      var sqlInsert = "INSERT INTO intention_bonded (accountId, timestamp, amount, json) VALUES ('" + validatorStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + validatorStaking[i].stakingLedger.active + "', '" + JSON.stringify(validatorStaking[i]) + "');";
+    for (var i = 0; i < intentionStaking.length; i++) {
+      //console.log(intentionStaking[i]);
+      var sqlInsert = "INSERT INTO intention_bonded (accountId, timestamp, amount, json) VALUES ('" + intentionStaking[i].accountId + "', UNIX_TIMESTAMP(), '" + intentionStaking[i].stakingLedger.active + "', '" + JSON.stringify(intentionStaking[i]) + "');";
       let [rows, fields] = await conn.execute(sqlInsert, [2, 2]);
     }
   }
